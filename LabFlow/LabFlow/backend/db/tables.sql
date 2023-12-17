@@ -4,8 +4,8 @@ CREATE TABLE users (
     surname   VARCHAR(50),
     email     VARCHAR(50),
     userName  VARCHAR(50),
-    pass      VARCHAR(50),
+    pass      VARCHAR(72), -- max character limit that bcrypt will create hashes to
     staff     BIT DEFAULT 0
 );
 
--- DROP TABLE users
+DELETE FROM users;
