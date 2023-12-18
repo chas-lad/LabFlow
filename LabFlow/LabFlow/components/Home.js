@@ -22,7 +22,6 @@ function Home({ navigation }) {
   const padding = 50; // Adjust the padding as needed
 
 
-
   const handleMachinePress = (item) => {
     // Handle machine press event
   };
