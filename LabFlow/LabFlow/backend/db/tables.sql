@@ -11,75 +11,91 @@ CREATE TABLE users (
 INSERT INTO users
 (firstName, surname, email, userName, pass, staff)
 VALUES
-("John", "Doe", "johndoe@gmail.com", "johndoe", "$2b$1", 0),
-("Jane", "Smith", "janesmith@gmail.com", "janesmith", "$2b$1", 0),
-("Michael", "Johnson", "michaeljohnson@gmail.com", "michaeljohnson", "$2b$1", 0),
-("Emily", "Williams", "emilywilliams@gmail.com", "emilywilliams", "$2b$1", 0),
-("Daniel", "Brown", "danielbrown@gmail.com", "danielbrown", "$2b$1", 0),
-("Olivia", "Jones", "oliviajones@gmail.com", "oliviajones", "$2b$1", 0),
-("Matthew", "Taylor", "matthewtaylor@gmail.com", "matthewtaylor", "$2b$1", 0),
-("Sophia", "Miller", "sophiamiller@gmail.com", "sophiamiller", "$2b$1", 0),
-("Andrew", "Anderson", "andrewanderson@gmail.com", "andrewanderson", "$2b$1", 0),
-("Emma", "Thomas", "emmathomas@gmail.com", "emmathomas", "$2b$1", 0),
-("William", "Jackson", "williamjackson@gmail.com", "williamjackson", "$2b$1", 0),
-("Ava", "White", "avawhite@gmail.com", "avawhite", "$2b$1", 0),
-("James", "Harris", "jamesharris@gmail.com", "jamesharris", "$2b$1", 0),
-("Mia", "Martin", "miamartin@gmail.com", "miamartin", "$2b$1", 0),
-("Benjamin", "Clark", "benjaminclark@gmail.com", "benjaminclark", "$2b$1", 0),
-("Charlotte", "Lewis", "charlottelewis@gmail.com", "charlottelewis", "$2b$1", 0),
-("Joseph", "Lee", "josephlee@gmail.com", "josephlee", "$2b$1", 0),
-("Chloe", "Walker", "chloewalker@gmail.com", "chloewalker", "$2b$1", 0),
-("David", "Hall", "davidhall@gmail.com", "davidhall", "$2b$1", 0),
-("Grace", "Young", "graceyoung@gmail.com", "graceyoung", "$2b$1", 0),
-("Liam", "Wilson", "liamwilson@gmail.com", "liamwilson", "$2b$1", 0),
-("Sophia", "Moore", "sophiamoore@gmail.com", "sophiamoore", "$2b$1", 0),
-("Noah", "Taylor", "noahtaylor@gmail.com", "noahtaylor", "$2b$1", 0),
-("Isabella", "Anderson", "isabellaanderson@gmail.com", "isabellaanderson", "$2b$1", 0),
-("Oliver", "Thomas", "oliverthomas@gmail.com", "oliverthomas", "$2b$1", 0),
-("Amelia", "Jackson", "ameliajackson@gmail.com", "ameliajackson", "$2b$1", 0),
-("Elijah", "White", "elijahwhite@gmail.com", "elijahwhite", "$2b$1", 0),
-("Charlotte", "Harris", "charlotteharris@gmail.com", "charlotteharris", "$2b$1", 0),
-("William", "Martin", "williammartin@gmail.com", "williammartin", "$2b$1", 0),
-("Ava", "Clark", "avaclark@gmail.com", "avaclark", "$2b$1", 0),
-("James", "Lewis", "jameslewis@gmail.com", "jameslewis", "$2b$1", 0),
-("Sophia", "Lee", "sophialee@gmail.com", "sophialee", "$2b$1", 0),
-("Benjamin", "Walker", "benjaminwalker@gmail.com", "benjaminwalker", "$2b$1", 0),
-("Mia", "Hall", "miahall@gmail.com", "miahall", "$2b$1", 0),
-("Henry", "Young", "henryyoung@gmail.com", "henryyoung", "$2b$1", 0),
-("Evelyn", "King", "evelynking@gmail.com", "evelynking", "$2b$1", 0),
-("Alexander", "Scott", "alexanderscott@gmail.com", "alexanderscott", "$2b$1", 0),
-("Harper", "Green", "harpergreen@gmail.com", "harpergreen", "$2b$1", 0),
-("Sebastian", "Baker", "sebastianbaker@gmail.com", "sebastianbaker", "$2b$1", 0),
-("Avery", "Adams", "averyadams@gmail.com", "averyadams", "$2b$1", 0),
-("Daniel", "Nelson", "danielnelson@gmail.com", "danielnelson", "$2b$1", 0),
-("Scarlett", "Hill", "scarletthill@gmail.com", "scarletthill", "$2b$1", 0),
-("Matthew", "Ramirez", "matthewramirez@gmail.com", "matthewramirez", "$2b$1", 0),
-("Lily", "Campbell", "lilycampbell@gmail.com", "lilycampbell", "$2b$1", 0),
-("Jackson", "Mitchell", "jacksonmitchell@gmail.com", "jacksonmitchell", "$2b$1", 0),
-("Aria", "Roberts", "ariaroberts@gmail.com", "ariaroberts", "$2b$1", 0),
-("David", "Carter", "davidcarter@gmail.com", "davidcarter", "$2b$1", 0),
-("Sofia", "Phillips", "sofiaphillips@gmail.com", "sofiaphillips", "$2b$1", 0),
-("Joseph", "Evans", "josephevans@gmail.com", "josephevans", "$2b$1", 0),
-("Victoria", "Turner", "victoriaturner@gmail.com", "victoriaturner", "$2b$1", 0),
-("Samuel", "Torres", "samueltorres@gmail.com", "samueltorres", "$2b$1", 0),
-("Avery", "Parker", "averyparker@gmail.com", "averyparker", "$2b$1", 0),
-("Abigail", "Collins", "abigailcollins@gmail.com", "abigailcollins", "$2b$1", 0),
-("Henry", "Edwards", "henryedwards@gmail.com", "henryedwards", "$2b$1", 0),
-("Elizabeth", "Stewart", "elizabethstewart@gmail.com", "elizabethstewart", "$2b$1", 0),
-("Owen", "Sanchez", "owensanchez@gmail.com", "owensanchez", "$2b$1", 0),
-("Emily", "Morris", "emilymorris@gmail.com", "emilymorris", "$2b$1", 0),
-("Daniel", "Rogers", "danielrogers@gmail.com", "danielrogers", "$2b$1", 0),
-("Scarlett", "Reed", "scarlettreed@gmail.com", "scarlettreed", "$2b$1", 0),
-("Lucas", "Cook", "lucascook@gmail.com", "lucascook", "$2b$1", 0),
-("Chloe", "Morgan", "chloemorgan@gmail.com", "chloemorgan", "$2b$1", 0),
-("Grace", "Bell", "gracebell@gmail.com", "gracebell", "$2b$1", 0),
-("Samuel", "Murphy", "samuelmurphy@gmail.com", "samuelmurphy", "$2b$1", 0),
-("Avery", "Rivera", "averyrivera@gmail.com", "averyrivera", "$2b$1", 0),
-("Evelyn", "Cooper", "evelyncooper@gmail.com", "evelyncooper", "$2b$1", 0),
-("Jackson", "Richardson", "jacksonrichardson@gmail.com", "jacksonrichardson", "$2b$1", 0),
-("Lily", "Cox", "lilycox@gmail.com", "lilycox", "$2b$1", 0),
-("Benjamin", "Ward", "benjaminward@gmail.com", "benjaminward", "$2b$1", 0),
-("Aria", "Peterson", "ariapeterson@gmail.com", "ariapeterson", "$2b$1", 0);
+('John', 'Doe', 'johndoe@gmail.com', 'johndoe', '$2b$1', 0),
+('Jane', 'Smith', 'janesmith@gmail.com', 'janesmith', '$2b$1', 0),
+('Michael', 'Johnson', 'michaeljohnson@gmail.com', 'michaeljohnson', '$2b$1', 0),
+('Emily', 'Williams', 'emilywilliams@gmail.com', 'emilywilliams', '$2b$1', 0),
+('Daniel', 'Brown', 'danielbrown@gmail.com', 'danielbrown', '$2b$1', 0),
+('Olivia', 'Jones', 'oliviajones@gmail.com', 'oliviajones', '$2b$1', 0),
+('Matthew', 'Taylor', 'matthewtaylor@gmail.com', 'matthewtaylor', '$2b$1', 0),
+('Sophia', 'Miller', 'sophiamiller@gmail.com', 'sophiamiller', '$2b$1', 0),
+('Andrew', 'Anderson', 'andrewanderson@gmail.com', 'andrewanderson', '$2b$1', 0),
+('Emma', 'Thomas', 'emmathomas@gmail.com', 'emmathomas', '$2b$1', 0),
+('William', 'Jackson', 'williamjackson@gmail.com', 'williamjackson', '$2b$1', 0),
+('Ava', 'White', 'avawhite@gmail.com', 'avawhite', '$2b$1', 0),
+('James', 'Harris', 'jamesharris@gmail.com', 'jamesharris', '$2b$1', 0),
+('Mia', 'Martin', 'miamartin@gmail.com', 'miamartin', '$2b$1', 0),
+('Benjamin', 'Clark', 'benjaminclark@gmail.com', 'benjaminclark', '$2b$1', 0),
+('Charlotte', 'Lewis', 'charlottelewis@gmail.com', 'charlottelewis', '$2b$1', 0),
+('Joseph', 'Lee', 'josephlee@gmail.com', 'josephlee', '$2b$1', 0),
+('Chloe', 'Walker', 'chloewalker@gmail.com', 'chloewalker', '$2b$1', 0),
+('David', 'Hall', 'davidhall@gmail.com', 'davidhall', '$2b$1', 0),
+('Grace', 'Young', 'graceyoung@gmail.com', 'graceyoung', '$2b$1', 0),
+('Liam', 'Wilson', 'liamwilson@gmail.com', 'liamwilson', '$2b$1', 0),
+('Sophia', 'Moore', 'sophiamoore@gmail.com', 'sophiamoore', '$2b$1', 0),
+('Noah', 'Taylor', 'noahtaylor@gmail.com', 'noahtaylor', '$2b$1', 0),
+('Isabella', 'Anderson', 'isabellaanderson@gmail.com', 'isabellaanderson', '$2b$1', 0),
+('Oliver', 'Thomas', 'oliverthomas@gmail.com', 'oliverthomas', '$2b$1', 0),
+('Amelia', 'Jackson', 'ameliajackson@gmail.com', 'ameliajackson', '$2b$1', 0),
+('Elijah', 'White', 'elijahwhite@gmail.com', 'elijahwhite', '$2b$1', 0),
+('Charlotte', 'Harris', 'charlotteharris@gmail.com', 'charlotteharris', '$2b$1', 0),
+('William', 'Martin', 'williammartin@gmail.com', 'williammartin', '$2b$1', 0),
+('Ava', 'Clark', 'avaclark@gmail.com', 'avaclark', '$2b$1', 0),
+('James', 'Lewis', 'jameslewis@gmail.com', 'jameslewis', '$2b$1', 0),
+('Sophia', 'Lee', 'sophialee@gmail.com', 'sophialee', '$2b$1', 0),
+('Benjamin', 'Walker', 'benjaminwalker@gmail.com', 'benjaminwalker', '$2b$1', 0),
+('Mia', 'Hall', 'miahall@gmail.com', 'miahall', '$2b$1', 0),
+('Henry', 'Young', 'henryyoung@gmail.com', 'henryyoung', '$2b$1', 0),
+('Evelyn', 'King', 'evelynking@gmail.com', 'evelynking', '$2b$1', 0),
+('Alexander', 'Scott', 'alexanderscott@gmail.com', 'alexanderscott', '$2b$1', 0),
+('Harper', 'Green', 'harpergreen@gmail.com', 'harpergreen', '$2b$1', 0),
+('Sebastian', 'Baker', 'sebastianbaker@gmail.com', 'sebastianbaker', '$2b$1', 0),
+('Avery', 'Adams', 'averyadams@gmail.com', 'averyadams', '$2b$1', 0),
+('Daniel', 'Nelson', 'danielnelson@gmail.com', 'danielnelson', '$2b$1', 0),
+('Scarlett', 'Hill', 'scarletthill@gmail.com', 'scarletthill', '$2b$1', 0),
+('Matthew', 'Ramirez', 'matthewramirez@gmail.com', 'matthewramirez', '$2b$1', 0),
+('Lily', 'Campbell', 'lilycampbell@gmail.com', 'lilycampbell', '$2b$1', 0),
+('Jackson', 'Mitchell', 'jacksonmitchell@gmail.com', 'jacksonmitchell', '$2b$1', 0),
+('Aria', 'Roberts', 'ariaroberts@gmail.com', 'ariaroberts', '$2b$1', 0),
+('David', 'Carter', 'davidcarter@gmail.com', 'davidcarter', '$2b$1', 0),
+('Sofia', 'Phillips', 'sofiaphillips@gmail.com', 'sofiaphillips', '$2b$1', 0),
+('Joseph', 'Evans', 'josephevans@gmail.com', 'josephevans', '$2b$1', 0),
+('Victoria', 'Turner', 'victoriaturner@gmail.com', 'victoriaturner', '$2b$1', 0),
+('Samuel', 'Torres', 'samueltorres@gmail.com', 'samueltorres', '$2b$1', 0),
+('Avery', 'Parker', 'averyparker@gmail.com', 'averyparker', '$2b$1', 0),
+('Abigail', 'Collins', 'abigailcollins@gmail.com', 'abigailcollins', '$2b$1', 0),
+('Henry', 'Edwards', 'henryedwards@gmail.com', 'henryedwards', '$2b$1', 0),
+('Elizabeth', 'Stewart', 'elizabethstewart@gmail.com', 'elizabethstewart', '$2b$1', 0),
+('Owen', 'Sanchez', 'owensanchez@gmail.com', 'owensanchez', '$2b$1', 0),
+('Emily', 'Morris', 'emilymorris@gmail.com', 'emilymorris', '$2b$1', 0),
+('Daniel', 'Rogers', 'danielrogers@gmail.com', 'danielrogers', '$2b$1', 0),
+('Scarlett', 'Reed', 'scarlettreed@gmail.com', 'scarlettreed', '$2b$1', 0),
+('Lucas', 'Cook', 'lucascook@gmail.com', 'lucascook', '$2b$1', 0),
+('Chloe', 'Morgan', 'chloemorgan@gmail.com', 'chloemorgan', '$2b$1', 0),
+('Grace', 'Bell', 'gracebell@gmail.com', 'gracebell', '$2b$1', 0),
+('Samuel', 'Murphy', 'samuelmurphy@gmail.com', 'samuelmurphy', '$2b$1', 0),
+('Avery', 'Rivera', 'averyrivera@gmail.com', 'averyrivera', '$2b$1', 0),
+('Evelyn', 'Cooper', 'evelyncooper@gmail.com', 'evelyncooper', '$2b$1', 0),
+('Jackson', 'Richardson', 'jacksonrichardson@gmail.com', 'jacksonrichardson', '$2b$1', 0),
+('Lily', 'Cox', 'lilycox@gmail.com', 'lilycox', '$2b$1', 0),
+('Benjamin', 'Ward', 'benjaminward@gmail.com', 'benjaminward', '$2b$1', 0),
+('Aria', 'Peterson', 'ariapeterson@gmail.com', 'ariapeterson', '$2b$1', 0);
+
+
+CREATE TABLE labs (
+    id                  INT,
+    locationDescription VARCHAR(1000),
+    labName             VARCHAR(50),
+    wheelchairAccess    BIT DEFAULT 1
+    PRIMARY KEY (id)
+);
+
+INSERT INTO labs
+(id, locationDescription, labName, wheelchairAccess)
+VALUES
+(1, '2nd floor, room 2.05', '2.05', 1),
+(2, '2nd floor, room 2.06', '2.06', 1),
+(3, '2nd floor, room 2.07', '2.07', 1);
 
 
 CREATE TABLE machines (
@@ -293,25 +309,6 @@ VALUES
 (36, 8.0, 3.0, 3, NULL, NULL),
 (37, 9.0, 3.0, 3, NULL, NULL),
 (38, 10.0, 3.0, 3, NULL, NULL);
-
-
-CREATE TABLE labs (
-    id                  INT,
-    locationDescription VARCHAR(1000),
-    labName             VARCHAR(50),
-    wheelchairAccess    BIT DEFAULT 1
-    PRIMARY KEY (id)
-);
-
-INSERT INTO labs
-(id, locationDescription, labName, wheelchairAccess)
-VALUES
-(1, '2nd floor, room 2.05', '2.05', 1),
-(2, '2nd floor, room 2.06', '2.06', 1),
-(3, '2nd floor, room 2.07', '2.07', 1);
-
-
-
 
 
 CREATE TABLE friends (
