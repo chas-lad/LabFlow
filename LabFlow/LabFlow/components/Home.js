@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, Dimensions, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, Dimensions, Modal, TouchableWithoutFeedback } from 'react-native';
 import { ScrollView, PinchGestureHandler } from 'react-native-gesture-handler';
 
 function Home({ navigation }) {
@@ -84,13 +84,18 @@ function Home({ navigation }) {
     if (!selectedMachine) return null;
 
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>{`Machine Specification:`}</Text>
-        <Text>{selectedMachine.specification}</Text>
-        <TouchableOpacity onPress={closeModal}>
-          <Text>Close</Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableWithoutFeedback onPress={closeModal}>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text>{`Machine Specification:`}</Text>
+            <Text>{selectedMachine.specification}</Text>
+            {/* uncomment below if I decide at later stage to include a close button */ }
+            {/* <TouchableOpacity onPress={closeModal}>
+              <Text>Close</Text>
+            </TouchableOpacity> */}
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
     );
   };
 
@@ -192,6 +197,17 @@ function Home({ navigation }) {
     },
     scrollView: {
       height: Dimensions.get('window').height * 0.9, // This will take up 90% of the height
+    },
+    modalOverlay: {
+      flex: 1,
+      backgroundColor: 'rgba(255, 255, 255, 0.9)', // White background with some transparency
+      justifyContent: 'center',
+    },
+    modalContent: {
+      padding: 20,
+      backgroundColor: 'white',
+      borderRadius: 10,
+      elevation: 5, // Android elevation for shadow
     },
   });
 
