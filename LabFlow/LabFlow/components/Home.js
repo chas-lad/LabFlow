@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, Dimensions, Modal } from 'react-native';
 import { ScrollView, PinchGestureHandler } from 'react-native-gesture-handler';
 
 function Home({ navigation }) {
@@ -7,6 +7,8 @@ function Home({ navigation }) {
   const [selectedLabID, setSelectedLabID] = useState(null);
   const [labs, setLabs] = useState([]);
   const [machineData, setMachineData] = useState([]);
+  const [selectedMachine, setSelectedMachine] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   // Simulating fetching lab data from the database
   useEffect(() => {
@@ -69,7 +71,27 @@ function Home({ navigation }) {
 
 
   const handleMachinePress = (item) => {
-    // Handle machine press event
+    setSelectedMachine(item);
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+    setSelectedMachine(null);
+  };
+
+  const renderModalContent = () => {
+    if (!selectedMachine) return null;
+
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>{`Machine Specification:`}</Text>
+        <Text>{selectedMachine.specification}</Text>
+        <TouchableOpacity onPress={closeModal}>
+          <Text>Close</Text>
+        </TouchableOpacity>
+      </View>
+    );
   };
 
   const handlePinch = (event) => {
@@ -112,26 +134,27 @@ function Home({ navigation }) {
 
   const { contentWidth, contentHeight } = calculateContentSize();
 
-  const renderTabs = () => {
-    return labs.map((lab) => (
-      <TouchableOpacity
-        key={lab.id}
-        onPress={() => setSelectedLabID(lab.id)}
-        style={{
-          padding: 10,
-          height: 40, // Set a fixed height, adjust as needed
-          backgroundColor: selectedLabID === lab.id ? 'lightblue' : 'white',
-        }}
-      >
-        <Text>{lab.labName}</Text>
-      </TouchableOpacity>
-    ));
-  };
+  const renderTab = ({ item }) => (
+    <TouchableOpacity
+      key={item.id.toString()} 
+      onPress={() => setSelectedLabID(item.id)}
+      style={{
+        padding: 10,
+        height: 40,
+        backgroundColor: selectedLabID === item.id ? 'lightblue' : 'white',
+      }}
+    >
+      <Text>{item.labName}</Text>
+    </TouchableOpacity>
+  );
 
   const renderItem = ({ item }) => {
     const adjustedSize = containerSize * zoomLevel;
     const adjustedX = item.xPos * adjustedSize + padding;
     const adjustedY = item.yPos * adjustedSize + padding;
+
+    // Determine the background color based on the presence of userID
+    const backgroundColor = item.userID ? 'red' : 'green';
 
     return (
       <TouchableOpacity onPress={() => handleMachinePress(item)}>
@@ -148,33 +171,59 @@ function Home({ navigation }) {
             height: adjustedSize,
             justifyContent: 'center',
             alignItems: 'center',
+            backgroundColor: backgroundColor,
           }}
         >
+          <Text>{`Machine ID: ${item.machineID}`}</Text>
+          <Text>{`User ID: ${item.userID || 'NULL'}`}</Text>
           <Text>{item.name}</Text>
         </View>
       </TouchableOpacity>
     );
   };
 
+  // Styling to help distinguish the FlatList(labs selection) and ScrollView(machines selection)
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    flatList: {
+      height: Dimensions.get('window').height * 0.1, // This will take up 10% of the height
+    },
+    scrollView: {
+      height: Dimensions.get('window').height * 0.9, // This will take up 90% of the height
+    },
+  });
+
   return (
-    <View style={{ flex: 1 }}>
-      <ScrollView horizontal>
-        {renderTabs()}
-      </ScrollView>
-      <PinchGestureHandler onGestureEvent={handlePinch}>
+    <View style={styles.container}>
+      {/* Horizontal FlatList for tabs */}
+      <FlatList
+        style={styles.flatlist}
+        horizontal
+        data={labs}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderTab}
+      />
+      {/* PinchGestureHandler ScrollView for machines */}
+      <PinchGestureHandler onGestureEvent={handlePinch} style={{ flex: 1 }}>
         <ScrollView
+          style={styles.scrollView}
           horizontal
           vertical
-          style={{ flex: 1 }}
           contentContainerStyle={{
             flexGrow: 1,
             width: contentWidth,
             height: contentHeight,
           }}
         >
-          {machineData.map((item) => renderItem({ item }))}
+          {machineData.map((item) => renderItem({ item, key: item.machineID.toString() }))}
         </ScrollView>
       </PinchGestureHandler>
+
+      <Modal visible={isModalVisible} transparent animationType="slide">
+        {renderModalContent()}
+      </Modal>
     </View>
   );
 }
