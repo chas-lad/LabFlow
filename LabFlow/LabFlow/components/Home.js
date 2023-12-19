@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Capacity from './Capacity';
+import LabInfo from './LabInfo';
 import MachineGrid from './MachineGrid';
 import Friends from './Friends';
 import Guidance from './Guidance';
@@ -14,7 +14,7 @@ const Tab = createBottomTabNavigator();
 const Home = () => {
     return (
         <Tab.Navigator>
-            <Tab.Screen name="Capacity" component={Capacity} />
+            <Tab.Screen name="Lab Info" component={LabInfo} />
             <Tab.Screen name="Machine Grid" component={MachineGrid} />
             <Tab.Screen name="Friends" component={Friends} />
             <Tab.Screen name="Lab Schedule" component={LabSchedule} />
