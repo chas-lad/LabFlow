@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-
+import { useAuth } from './AuthContext'; // Import the useAuth hook
 
 function LoginScreen({ navigation }) {
+  const { setUser } = useAuth(); // Access the setUser function from the AuthContext
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState(null); // Add this line
@@ -34,6 +35,9 @@ function LoginScreen({ navigation }) {
     if (response.status === 200) {
       // If login is successful, reset the navigation stack and navigate to the Home screen
       // Resetting the navigation stack prevents the user from being able to go back to the Login screen
+
+      const userInfo = await response.json();
+      setUser(userInfo)
       navigation.reset({
         index: 0,
         routes: [{ name: 'Home' }],

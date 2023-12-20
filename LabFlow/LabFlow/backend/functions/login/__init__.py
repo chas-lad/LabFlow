@@ -2,6 +2,7 @@ import azure.functions as func
 from  db import db_connector
 import logging
 import hashlib
+import json
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
@@ -16,22 +17,28 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             userName = req_body.get('userName')
             plain_password_from_client = req_body.get('password')
 
-            # Retrieve the hashed password from the database for the given username
+            # Retrieve user info and hashed password from the database for the given username
             cursor.execute("""
                             SELECT
+                                id,
+                                firstName,
+                                surname,
+                                email,
+                                userName,
                                 pass
                             FROM
                                 users
                             WHERE
                                 userName = ?
                            """, userName)
-            result = cursor.fetchone()
+            
+            user = cursor.fetchone()
 
             cursor.close()
             connection.close()
 
-            if result is not None:
-                hashed_password_from_db = result[0]
+            if user is not None:
+                hashed_password_from_db = user[5]
 
                 # Check if hashed_password_from_db is not None before comparing
                 if hashed_password_from_db is not None:
@@ -39,7 +46,14 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                     logging.info(f"plain_password_from_client: {plain_password_from_client}")
                     logging.info(f"hashed_password_from_db: {hashed_password_from_db}")
                     if hashlib.sha256(plain_password_from_client.encode('utf-8')).hexdigest() == hashed_password_from_db:
-                        return func.HttpResponse("Login successful", status_code=200)
+                        user_info = {
+                            "id": user[0],
+                            "firstName": user[1],
+                            "surname": user[2],
+                            "email": user[3],
+                            "userName": user[4]
+                        }
+                        return func.HttpResponse(json.dumps(user_info), mimetype="application/json", status_code=200)
                     else:
                         logging.warning("Password mismatch: Incorrect password")
                         return func.HttpResponse("Invalid username or password", status_code=401)

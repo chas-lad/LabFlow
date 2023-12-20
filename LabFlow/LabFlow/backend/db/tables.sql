@@ -8,6 +8,7 @@ CREATE TABLE users (
     staff     BIT DEFAULT 0
 );
 
+
 INSERT INTO users
 (firstName, surname, email, userName, pass, staff)
 VALUES

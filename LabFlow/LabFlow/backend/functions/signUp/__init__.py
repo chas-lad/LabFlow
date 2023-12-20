@@ -2,6 +2,7 @@ import azure.functions as func
 from  db import db_connector
 import logging
 import hashlib
+import json
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
@@ -19,7 +20,23 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             userName = req_body.get('userName')
             password = req_body.get('password')
 
+            # Check if the username already exists in the database
+            cursor.execute("""
+                            SELECT
+                                *
+                            FROM
+                                users
+                            WHERE
+                                userName = ?
+                            """, userName)
+            
+            user = cursor.fetchone()
+
+            if user is not None:
+                return func.HttpResponse("Username already exists", status_code=409)
+
             hashedPassword = hashlib.sha256(password.encode('utf-8')).hexdigest()
+
             cursor.execute(""" 
                     INSERT INTO users
                     (
@@ -38,12 +55,36 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                         ?
                     )
                     """, (firstName, surname, email, userName, hashedPassword))
-
+            
             connection.commit()
+
+            cursor.execute("""
+                            SELECT
+                                id,
+                                firstName,
+                                surname,
+                                email,
+                                userName
+                            FROM
+                                users
+                            WHERE
+                                userName = ?
+                           """, userName)
+            
+            user = cursor.fetchone()
+
             cursor.close()
             connection.close()
 
-            return func.HttpResponse("User registered successfully", status_code=200)
+            user_info = {
+                "id": user[0],
+                "firstName": user[1],
+                "surname": user[2],
+                "email": user[3],
+                "userName": user[4]
+            }
+
+            return func.HttpResponse(json.dumps(user_info), mimetype="application/json", status_code=200)
 
         except Exception as e:
             logging.error(f"Error: {str(e)}")
