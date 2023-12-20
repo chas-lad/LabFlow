@@ -378,10 +378,97 @@ CREATE TABLE friends (
 
 CREATE TABLE teachingSchedule (
     id INT IDENTITY(1,1) PRIMARY KEY,
-    module VARCHAR(10),
+    module VARCHAR(100),
     lecturerName VARCHAR(50),
     dayOfWeek VARCHAR(10),
-    startTime TIME,
-    endTime TIME,
+    startTime DATETIME,
+    endTime DATETIME,
     labId INT FOREIGN KEY REFERENCES labs(id)
 );
+
+
+INSERT INTO teachingSchedule
+(module, lecturerName, dayOfWeek, startTime, endTime, labId)
+VALUES
+(
+    'COMP3811: Computer Graphics',
+    'Markus Belitter',
+    'Mon',
+    '09:00:00',
+    '11:00:00',
+    1
+),
+(
+    'COMP3911: Secure Computing',
+    'Arshad Jumka',
+    'Mon',
+    '13:00:00',
+    '15:00:00',
+    1
+),
+(
+    'COMP2211: Operating Systems',
+    'Samuel Wilson',
+    'Mon',
+    '15:00:00',
+    '17:00:00',
+    2
+),
+(
+    'COMP3211: Distributed Systems',
+    'Karim Djemame',
+    'Tue',
+    '10:00:00',
+    '12:00:00',
+    1
+),
+(
+    'COMP2811: User Interfaces',
+    'Tom Kelly',
+    'Tue',
+    '13:00:00',
+    '15:00:00',
+    3
+),
+(
+    'COMP3736: Information Visualisation',
+    'Roy Ruddle',
+    'Wed',
+    '09:00:00',
+    '11:00:00',
+    2
+),
+(
+    'COMP2611: Artifical Intelligence',
+    'Andy Bulpitt',
+    'Wed',
+    '11:00:00',
+    '13:00:00',
+    3
+),
+(
+    'COMP2421: Numerical Computation',
+    'Thomas Ranner',
+    'Thu',
+    '11:00:00',
+    '13:00:00',
+    3
+),
+(
+    'COMP3771: User Adaptive Intelligent Systems',
+    'Vania Dimitrova',
+    'Thu',
+    '14:00:00',
+    '16:00:00',
+    2
+),
+(
+    'COMP3811: Computer Graphics',
+    'Markus Belitter',
+    'Fri',
+    '10:00:00',
+    '12:00:00',
+    3
+);
+
+
