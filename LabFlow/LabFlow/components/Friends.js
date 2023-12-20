@@ -95,7 +95,6 @@ const Friends = () => {
 
     const handleAddFriend = async () => {
       try {
-        let status = 1;
         let loggedInUserId = loggedInUser.id;
         let selectedUserId = selectedUser.id;
         const response = await fetch(
@@ -105,7 +104,7 @@ const Friends = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ loggedInUserId, selectedUserId, status }),
+                body: JSON.stringify({ loggedInUserId, selectedUserId }),
             }
         );
 
@@ -120,6 +119,32 @@ const Friends = () => {
         } 
         else {
             console.error('Error registering friend, error code: ', response.status);
+        }
+      } catch (error) {
+          console.error('Error:', error);
+      }
+    };
+
+    const handleDeleteFriend = async (friendId) => {
+      let loggedInUserId = loggedInUser.id;
+      console.log(friendId);
+      console.log(loggedInUserId);
+      try {
+        const response = await fetch(
+          `https://labflowbackend.azurewebsites.net/api/friends?loggedInUserId=${loggedInUserId}&friendId=${friendId}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+
+        if (response.status === 200) {
+            // Fetch the updated list of friends after deleting a friend
+            await fetchFriendsFromDatabase();
+        } else {
+            console.error('Error deleting friend, error code: ', response.status);
         }
       } catch (error) {
           console.error('Error:', error);
@@ -149,20 +174,26 @@ const Friends = () => {
           <Button title="Add Friend" onPress={handleAddFriend} />
           
           {/* Display the friends of the logged in user */}
-          <Text style={styles.headerText}>Your Friends</Text>
-          <Text style={styles.matchedUserText}>You have {friends.length} friends</Text>
-          <FlatList
-            data={friends}
-            renderItem={({ item }) => (
-            <Text style={styles.matchedUserText}>
-              {item.friendFirstName + ' ' + item.friendSurname + ' ' + item.friendEmail + 
-               (item.labName ? ' in lab ' + item.labName : '')
-            }</Text>
-            )}
-            keyExtractor={(item) => item.friendId.toString()}
-            style={styles.flatList}
-          />
-          <Text style={{ color: 'red' }}>{errorMessage}</Text>
+            <Text style={styles.headerText}>Your Friends</Text>
+            <Text style={styles.matchedUserText}>You have {friends.length} friends</Text>
+            <FlatList
+                data={friends}
+                renderItem={({ item }) => (
+                    <View style={styles.friendItem}>
+                        <Text style={styles.matchedUserText}>
+                            {item.friendFirstName + ' ' + item.friendSurname + ' ' + item.friendEmail +
+                                (item.labName ? ' in lab ' + item.labName : '')
+                            }
+                        </Text>
+                        <TouchableOpacity onPress={() => handleDeleteFriend(item.friendId)}>
+                            <Text style={styles.deleteButton}>Delete</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
+                keyExtractor={(item) => item.friendId.toString()}
+                style={styles.flatList}
+            />
+            <Text style={{ color: 'red' }}>{errorMessage}</Text>
         </View>
       );
     };
@@ -197,6 +228,15 @@ const Friends = () => {
       matchedUserText: {
         fontSize: 18,
         marginBottom: 15,
+      },
+      friendItem: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      },
+      deleteButton: {
+          color: 'red',
+          fontSize: 16,
       },
     });
     

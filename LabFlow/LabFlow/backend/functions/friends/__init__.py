@@ -15,54 +15,41 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
             loggedInUserId = req_body.get('loggedInUserId')
             selectedUserId = req_body.get('selectedUserId')
-            status       = req_body.get('status')
 
-            # Deal with removing a friend from the users friends list
-            if status == 0:
-                cursor.execute("""
-                               DELETE FROM
+            # Check if the user is already friends with the selected user
+            cursor.execute("""
+                                SELECT
+                                    1
+                                FROM
                                     friends
-                               WHERE
+                                WHERE
                                     friend1 = ?
-                               AND
+                                AND
                                     friend2 = ?
-                               """, (loggedInUserId, selectedUserId))
-            elif status == 1:
+                            """, (loggedInUserId, selectedUserId))
+            if cursor.fetchone() is not None:
+                return func.HttpResponse("Users are already friends", status_code=409)
 
-                # Check if the user is already friends with the selected user
-                cursor.execute("""
-                                 SELECT
-                                        1
-                                    FROM
-                                        friends
-                                    WHERE
-                                        friend1 = ?
-                                    AND
-                                        friend2 = ?
-                                """, (loggedInUserId, selectedUserId))
-                if cursor.fetchone() is not None:
-                    return func.HttpResponse("Users are already friends", status_code=409)
-
-                cursor.execute("""
-                               INSERT INTO friends
-                                (
-                                    friend1,
-                                    friend2
-                                )
-                               VALUES
-                                (
-                                    ?,
-                                    ?
-                                )
-                               """, (loggedInUserId, selectedUserId))
+            cursor.execute("""
+                            INSERT INTO friends
+                            (
+                                friend1,
+                                friend2
+                            )
+                            VALUES
+                            (
+                                ?,
+                                ?
+                            )
+                            """, (loggedInUserId, selectedUserId))
                 
             connection.commit()
             cursor.close()
             connection.close()
-            return func.HttpResponse("Friend registered or removed", status_code=200)
+            return func.HttpResponse("Friend added", status_code=200)
         except Exception as e:
             logging.error(f"Error: {str(e)}")
-            return func.HttpResponse("Failed to register or remove friend", status_code=500)
+            return func.HttpResponse("Failed to add friend", status_code=500)
     elif req.method == 'GET':
         try:
             connection = db_connector()
@@ -96,10 +83,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
             
             friends = cursor.fetchall()
-            logging.info("friends:" + str(friends))
             # Convert the result to a list of dictionaries
             friends_list = [dict(zip([column[0] for column in cursor.description], row)) for row in friends]
-            logging.info(friends_list)
             cursor.close()
             connection.close()
 
@@ -108,8 +93,33 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         except Exception as e:
             logging.error(f"Error: {str(e)}")
             return func.HttpResponse("Failed to fetch logged in user's friends", status_code=500)
+    elif req.method == 'DELETE':
+        try:
+            connection = db_connector()
+            cursor = connection.cursor()
+
+            loggedInUserId = req.params.get('loggedInUserId')
+            friendId = req.params.get('friendId')
+            logging.info(f"loggedInUserId: {loggedInUserId}, friendId: {friendId}")
+            # Deal with removing a friend from the users friends list
+            cursor.execute("""
+                            DELETE FROM
+                                friends
+                            WHERE
+                                friend1 = ?
+                            AND
+                                friend2 = ?
+                            """, (loggedInUserId, friendId))
+                
+            connection.commit()
+            cursor.close()
+            connection.close()
+            return func.HttpResponse("Friend removed", status_code=200)
+        except Exception as e:
+            logging.error(f"Error: {str(e)}")
+            return func.HttpResponse("Failed to remove friend", status_code=500)
     else:
         return func.HttpResponse(
-                'Invalid request method. Use POST or GET.',
+                'Invalid request method. Use POST or GET or DELETE.',
                 status_code=400
             )
