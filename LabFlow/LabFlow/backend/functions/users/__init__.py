@@ -20,7 +20,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                            
             users = cursor.fetchall()
 
-             # Convert the result to a list of dictionaries
+            # Convert the result to a list of dictionaries
             users_list = [dict(zip([column[0] for column in cursor.description], row)) for row in users]
 
             cursor.close()

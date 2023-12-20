@@ -371,10 +371,10 @@ VALUES
 
 CREATE TABLE friends (
     friend1       INT FOREIGN KEY REFERENCES users(id),
-    friend2       INT FOREIGN KEY REFERENCES users(id),
-    friendStatus  INT DEFAULT 0
+    friend2       INT FOREIGN KEY REFERENCES users(id)
     PRIMARY KEY (friend1, friend2)
 );
+
 
 CREATE TABLE teachingSchedule (
     id INT IDENTITY(1,1) PRIMARY KEY,
