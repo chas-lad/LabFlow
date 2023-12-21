@@ -1,26 +1,21 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import { View, Text, TextInput, Button, ImageBackground, TouchableOpacity, StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { useAuth } from './AuthContext'; // Import the useAuth hook
 
-function LoginScreen({ navigation }) {
-  const { setUser } = useAuth(); // Access the setUser function from the AuthContext
+const LoginScreen = ({ navigation }) => {
+  const { setUser } = useAuth();
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState(null); // Add this line
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useFocusEffect(
     React.useCallback(() => {
-        // In react-native (unlike react we maintain a stack when navigating) so we use useFocusEffect to clear the error message
-        // when the user navigates away from the Login screen. If we are going backward, the component will be destroyed and this log will be executed, but if you are navigating forward, it’s not going to be executed.
-        // Because navigation in React Native is like a stack and keep alive when we go to the next page.
-        // So, if we want to execute the return section, even if we are navigating forward, we need to use useFocusEffect 
-        setErrorMessage(null);
-      }, [])
-    );
+      setErrorMessage(null);
+    }, [])
+  );
 
   const handleLogin = async () => {
-
     const response = await fetch(
       'https://labflowbackend.azurewebsites.net/api/login?',
       {
@@ -31,46 +26,110 @@ function LoginScreen({ navigation }) {
         body: JSON.stringify({ userName, password }),
       }
     );
-    
-    if (response.status === 200) {
-      // If login is successful, reset the navigation stack and navigate to the Home screen
-      // Resetting the navigation stack prevents the user from being able to go back to the Login screen
 
+    if (response.status === 200) {
       const userInfo = await response.json();
-      setUser(userInfo)
+      setUser(userInfo);
       navigation.reset({
         index: 0,
         routes: [{ name: 'Home' }],
       });
     } else {
-      setErrorMessage('Invalid username or password'); 
+      setErrorMessage('Invalid username or password');
     }
- 
   };
 
   return (
-    <View>
-      <Text>Login Screen</Text>
+    <ImageBackground source={require('../assets/login_and_signup_background.png')} style={styles.background}>
+    <View style={styles.container}>
+      <Text style={styles.title}>LabFlow</Text>
       <TextInput
+        style={styles.input}
         placeholder="Username"
         value={userName}
         onChangeText={(text) => setUserName(text)}
       />
       <TextInput
+        style={styles.input}
         placeholder="Password"
         secureTextEntry
         value={password}
         onChangeText={(text) => setPassword(text)}
       />
-      <Button title="Login" onPress={handleLogin} />
-      {errorMessage ? <Text>{errorMessage}</Text> : null}
-      <Text>Don't have an account?</Text>
-      <Button
-        title="Sign Up"
-        onPress={() => navigation.navigate('Signup')}
-      />
+      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+      {errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
+
+      <Text style={styles.noAccountText}>Don't have an account?</Text>
+      
+      <TouchableOpacity style={styles.signUpButton} onPress={() => navigation.navigate('Signup')}>
+          <Text style={styles.buttonText}>Sign Up</Text>
+      </TouchableOpacity>
     </View>
+    </ImageBackground>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  title: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    marginBottom: 30,
+    color: 'white',
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 16,
+    paddingLeft: 8,
+    width: '100%',
+    backgroundColor: 'white',
+  },
+  error: {
+    color: 'red',
+    marginBottom: 16,
+  },
+  loginButton: {
+    backgroundColor: 'green', // Customize the button color
+    padding: 10,
+    borderRadius: 5,
+    width: '100%',
+    alignItems: 'center',
+  },
+  signUpButton: {
+    backgroundColor: 'blue', // Customize the button color
+    padding: 5,
+    borderRadius: 3,
+    width: '50%',
+    alignItems: 'center',
+  },
+  noAccountText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 40,
+    marginBottom: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+});
+
 
 export default LoginScreen;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
 const LabInfo = () => {
@@ -64,7 +64,7 @@ const LabInfo = () => {
           }
         });
 
-        setCapacity(Math.round(currentCapacity/maxCapacity * 100));
+        setCapacity(Math.round((currentCapacity / maxCapacity) * 100));
       } catch (error) {
         console.error('Error fetching machines:', error);
       }
@@ -75,8 +75,8 @@ const LabInfo = () => {
     }
   }, [selectedLabId]);
 
-   // Function to determine the color based on capacity
-   const getCapacityColor = () => {
+  // Function to determine the color based on capacity
+  const getCapacityColor = () => {
     if (capacity <= 33) {
       return 'green';
     } else if (capacity <= 67) {
@@ -87,9 +87,10 @@ const LabInfo = () => {
   };
 
   return (
-    <View>
-      <Text>Select Lab:</Text>
+    <View style={styles.container}>
+      <Text style={styles.header}>Lab Information</Text>
       <Picker
+        style={styles.picker}
         selectedValue={selectedLabId}
         onValueChange={(itemValue) => setSelectedLabId(itemValue)}
       >
@@ -99,16 +100,53 @@ const LabInfo = () => {
       </Picker>
       {selectedLabId &&
         labs.find((lab) => lab.id == selectedLabId)?.wheelchairAccess && (
-          <Text>This lab is wheelchair accessible</Text>
+          <Text style={styles.accessText}>This lab is wheelchair accessible</Text>
         )}
-      {selectedLabId &&
-          <Text>Lab location: {labs.find((lab) => lab.id == selectedLabId)?.locationDescription}</Text>
-        }
+      {selectedLabId && (
+        <Text style={styles.locationText}>
+          Lab location: {labs.find((lab) => lab.id == selectedLabId)?.locationDescription}
+        </Text>
+      )}
       {capacity && (
-        <Text style={{ color: getCapacityColor(), fontSize: 50, fontWeight: 'bold' }}>Capacity: {capacity}%</Text>
+        <Text style={[styles.capacityText, { color: getCapacityColor() }]}>
+          Capacity: {capacity}%
+        </Text>
       )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: '#f0f0f0', // Background color
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    color: '#333', // Text color
+  },
+  picker: {
+    width: '100%',
+    marginBottom: 16,
+    backgroundColor: '#fff', // Picker background color
+  },
+  accessText: {
+    marginBottom: 8,
+    color: 'green', // Access text color
+  },
+  locationText: {
+    marginBottom: 8,
+    color: '#333', // Location text color
+  },
+  capacityText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+});
 
 export default LabInfo;

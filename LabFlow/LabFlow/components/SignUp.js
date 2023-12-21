@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ImageBackground, StyleSheet } from 'react-native';
 import { useAuth } from './AuthContext'; // Import the useAuth hook
 
-function SignUp({ navigation }) {
-  const { setUser } = useAuth(); // Access the setUser function from the AuthContext
-
+const SignUp = ({ navigation }) => {
+  const { setUser } = useAuth();
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -47,10 +46,8 @@ function SignUp({ navigation }) {
     return isValid;
   };
 
-
   const handleSignup = async () => {
     try {
-      // Validate code before sending to server
       if (!validateFirstName(firstName) || !validateSurname(surname) || !validateEmail(email) || !validateUserName(userName) || !validatePassword(password)) {
         return;
       }
@@ -67,10 +64,8 @@ function SignUp({ navigation }) {
       );
       
       if (response.status === 200) {
-        // If signup is successful, reset the navigation stack and navigate to the Home screen
-        // Resetting the navigation stack prevents the user from being able to go back to the Login or SignUp screen
         const userInfo = await response.json();
-        setUser(userInfo)
+        setUser(userInfo);
         
         navigation.reset({
           index: 0,
@@ -87,21 +82,94 @@ function SignUp({ navigation }) {
   };
 
   return (
-    <View>
-      <Text>Sign Up</Text>
-      <TextInput placeholder="First Name" onChangeText={setFirstName} />
-      {firstNameError ? <Text>{firstNameError}</Text> : null}
-      <TextInput placeholder="Surname" onChangeText={setSurname} />
-      {surnameError ? <Text>{surnameError}</Text> : null}
-      <TextInput placeholder="Email" onChangeText={setEmail} />
-      {emailError ? <Text>{emailError}</Text> : null}
-      <TextInput placeholder="Username" onChangeText={setUserName} />
-      {userNameError ? <Text>{userNameError}</Text> : null}
-      <TextInput placeholder="Password" onChangeText={setPassword} secureTextEntry={true} />
-      {passwordError ? <Text>{passwordError}</Text> : null}
-      <Button title="Sign Up" onPress={handleSignup} />
+    <ImageBackground source={require('../assets/login_and_signup_background.png')} style={styles.background}>
+    <View style={styles.container}>
+      <Text style={styles.title}>Sign Up</Text>
+      <TextInput style={styles.input} placeholder="First Name" onChangeText={setFirstName} />
+      {firstNameError ? <Text style={styles.error}>{firstNameError}</Text> : null}
+      <TextInput style={styles.input} placeholder="Surname" onChangeText={setSurname} />
+      {surnameError ? <Text style={styles.error}>{surnameError}</Text> : null}
+      <TextInput style={styles.input} placeholder="Email" onChangeText={setEmail} />
+      {emailError ? <Text style={styles.error}>{emailError}</Text> : null}
+      <TextInput style={styles.input} placeholder="Username" onChangeText={setUserName} />
+      {userNameError ? <Text style={styles.error}>{userNameError}</Text> : null}
+      <TextInput style={styles.input} placeholder="Password" onChangeText={setPassword} secureTextEntry={true} />
+      {passwordError ? <Text style={styles.error}>{passwordError}</Text> : null}
+      {/* Custom button */}
+      <TouchableOpacity style={styles.customButton} onPress={handleSignup}>
+          <Text style={styles.buttonText}>Sign Up</Text>
+      </TouchableOpacity>
+      
+      <Text style={styles.alreadyHaveAccountText}>Already have an account?</Text>
+      
+      <TouchableOpacity style={styles.signUpButton} onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
     </View>
+    </ImageBackground>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  title: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    marginBottom: 30,
+    color: 'white',
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 16,
+    paddingLeft: 8,
+    width: '100%',
+    backgroundColor: 'white',
+  },
+  error: {
+    color: 'red',
+    marginBottom: 16,
+  },
+  customButton: {
+    backgroundColor: 'green', // Customize the button color
+    padding: 10,
+    borderRadius: 5,
+    width: '100%',
+    alignItems: 'center',
+  },
+  signUpButton: {
+    backgroundColor: 'blue', // Customize the button color
+    padding: 5,
+    borderRadius: 3,
+    width: '50%',
+    alignItems: 'center',
+  },
+  alreadyHaveAccountText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 40,
+    marginBottom: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+});
+
+
 
 export default SignUp;
