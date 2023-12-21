@@ -84,7 +84,7 @@ const SignUp = ({ navigation }) => {
   return (
     <ImageBackground source={require('../assets/login_and_signup_background.png')} style={styles.background}>
     <View style={styles.container}>
-      <Text style={styles.title}>Sign Up</Text>
+      <Text style={styles.title}>LabFlow</Text>
       <TextInput style={styles.input} placeholder="First Name" onChangeText={setFirstName} />
       {firstNameError ? <Text style={styles.error}>{firstNameError}</Text> : null}
       <TextInput style={styles.input} placeholder="Surname" onChangeText={setSurname} />

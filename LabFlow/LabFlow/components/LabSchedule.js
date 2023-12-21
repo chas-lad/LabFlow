@@ -89,8 +89,7 @@ const LabSchedule = () => {
   };
 
   return (
-    
-    <View style={{ paddingBottom: 30}}>
+    <View style={styles.container}>
       <Text style={styles.title}>Lab Schedule</Text>
       {schedule && schedule.length > 0 ? (
         <SectionList
@@ -102,37 +101,55 @@ const LabSchedule = () => {
           extraData={collapsedDays} // Ensure re-render when collapsedDays changes
         />
       ) : (
-        <Text>No schedule data available</Text>
+        <Text style={styles.noDataText}>No schedule data available</Text>
       )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#f0f0f0',
+  },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: '#333',
   },
   header: {
-    backgroundColor: '#f2f2f2',
-    padding: 10,
+    backgroundColor: '#4CAF50',
+    padding: 15,
+    marginBottom: 10,
+    borderRadius: 5,
   },
   headerText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
+    color: 'white',
   },
   item: {
-    padding: 10,
+    padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
+    backgroundColor: 'white',
+    borderRadius: 5,
+    marginBottom: 10,
   },
   itemText: {
-    fontSize: 14,
+    fontSize: 16,
+    marginBottom: 5,
+    color: '#333',
   },
   separator: {
     height: 1,
     backgroundColor: '#ccc',
+  },
+  noDataText: {
+    fontSize: 16,
+    color: '#333',
   },
 });
 

@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LabInfo from './LabInfo';
 import MachineGrid from './MachineGrid';
 import Friends from './Friends';
-import Guidance from './Guidance';
+import LabUsage from './LabUsage';
 import LabSchedule from './LabSchedule';
 
 
@@ -18,7 +18,7 @@ const Home = () => {
             <Tab.Screen name="Machine Grid" component={MachineGrid} />
             <Tab.Screen name="Friends" component={Friends} />
             <Tab.Screen name="Lab Schedule" component={LabSchedule} />
-            <Tab.Screen name="Guidance" component={Guidance} />
+            <Tab.Screen name="Lab Usage" component={LabUsage} />
         </Tab.Navigator>
     );
 };

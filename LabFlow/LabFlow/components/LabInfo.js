@@ -88,7 +88,7 @@ const LabInfo = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Lab Information</Text>
+      <Text style={styles.header}>Select a Lab</Text>
       <Picker
         style={styles.picker}
         selectedValue={selectedLabId}
@@ -104,12 +104,12 @@ const LabInfo = () => {
         )}
       {selectedLabId && (
         <Text style={styles.locationText}>
-          Lab location: {labs.find((lab) => lab.id == selectedLabId)?.locationDescription}
+          {labs.find((lab) => lab.id == selectedLabId)?.locationDescription}
         </Text>
       )}
       {capacity && (
         <Text style={[styles.capacityText, { color: getCapacityColor() }]}>
-          Capacity: {capacity}%
+          {capacity}% Spaces Occupied
         </Text>
       )}
     </View>
@@ -134,18 +134,24 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 16,
     backgroundColor: '#fff', // Picker background color
+    borderRadius: 5,
   },
   accessText: {
+    fontSize: 20,
     marginBottom: 8,
     color: 'green', // Access text color
+    textAlign: 'center',
   },
   locationText: {
+    fontSize: 20,
     marginBottom: 8,
     color: '#333', // Location text color
+    textAlign: 'center',
   },
   capacityText: {
-    fontSize: 24,
+    fontSize: 40,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 

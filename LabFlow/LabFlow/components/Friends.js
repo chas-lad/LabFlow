@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { useAuth } from './AuthContext';
 
 const Friends = () => {
@@ -134,51 +134,44 @@ const Friends = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.welcomeText}>Welcome, {loggedInUser.firstName}</Text>
       <Text style={styles.headerText}>Enter a user to add as a friend</Text>
       <TextInput
-  value={friendName}
-  onChangeText={handleFriendNameChange}
-  onEndEditing={() => {
-    if (!friendName.trim()) {
-      // Clear selected user and matched users if input is empty
-      setSelectedUser(null);
-      setMatchedUsers([]);
-    }
-  }}
-  placeholder="Type a friend's name"
-  style={styles.input}
-/>
-
-      { (matchedUsers.length > 0) && (<FlatList
-        data={friendName && matchedUsers}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => handleUserSelect(item)}>
-            <Text style={styles.matchedUserText}>{item.firstName + ' ' + item.surname}</Text>
-          </TouchableOpacity>
-        )}
-        keyExtractor={(item) => item.id.toString()}
-        style={styles.flatList}
-      />)}
-      <Button title="Add Friend" onPress={handleAddFriend} />
+        value={friendName}
+        onChangeText={handleFriendNameChange}
+        placeholder="Type a friend's name"
+        style={styles.input}
+      />
+      {matchedUsers.length > 0 && (
+        <ScrollView style={styles.scrollView}>
+          {matchedUsers.map((item) => (
+            <TouchableOpacity key={item.id} onPress={() => handleUserSelect(item)}>
+              <Text style={styles.matchedUserText}>{item.firstName + ' ' + item.surname}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      )}
+      <TouchableOpacity style={styles.addButton} onPress={handleAddFriend}>
+        <Text style={styles.addButtonText}>Add Friend</Text>
+      </TouchableOpacity>
       <Text style={styles.headerText}>Your Friends</Text>
-      <Text style={styles.friendsCountText}>You have {friends.length} friends</Text>
-      <FlatList
-        data={friends}
-        renderItem={({ item }) => (
-          <View style={styles.friendItem}>
-            <Text style={styles.friendInfoText}>
-              {item.friendFirstName + ' ' + item.friendSurname + ' ' + item.friendEmail +
-                (item.labName ? ' in lab ' + item.labName : '')
-              }
-            </Text>
+      <Text style={styles.friendsCountText}>
+        You have {friends.length} friends, {friends.filter((friend) => friend.labName).length} in labs
+      </Text>
+      <ScrollView style={styles.scrollView}>
+        {friends.map((item) => (
+          <View key={item.friendId} style={styles.friendItem}>
+            <View style={styles.friendInfoContainer}>
+              <Text style={styles.friendName}>{`${item.friendFirstName} ${item.friendSurname}`}</Text>
+              <Text style={styles.friendEmail}>{item.friendEmail}</Text>
+              <Text style={styles.labName}>{item.labName ? 'Currently in Lab: ' + item.labName : 'Not in labs'}</Text>
+            </View>
             <TouchableOpacity onPress={() => handleDeleteFriend(item.friendId)}>
               <Text style={styles.deleteButton}>Delete</Text>
             </TouchableOpacity>
           </View>
-        )}
-        keyExtractor={(item) => item.friendId.toString()}
-        style={styles.flatList}
-      />
+        ))}
+      </ScrollView>
       <Text style={styles.errorMessage}>{errorMessage}</Text>
     </View>
   );
@@ -206,36 +199,61 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: '#ccc',
     borderWidth: 1,
+    borderRadius: 5,
     marginBottom: 10,
     padding: 10,
     backgroundColor: 'white',
   },
-  flatList: {
+  scrollView: {
     backgroundColor: 'white',
     marginTop: 10,
     padding: 10,
     borderWidth: 1,
     borderColor: '#ccc',
+    borderRadius: 5,
+    maxHeight: 150,
   },
   matchedUserText: {
     fontSize: 16,
     marginBottom: 15,
     color: '#333',
   },
+  addButton: {
+    backgroundColor: '#4CAF50', // Green color
+    borderRadius: 5,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  addButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
   friendItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  friendInfoText: {
-    fontSize: 16,
     marginBottom: 10,
+  },
+  friendInfoContainer: {
+    flex: 1,
+    marginRight: 10,
+  },
+  friendName: {
+    fontSize: 16,
+    fontWeight: 'bold',
     color: '#333',
   },
-  friendsCountText: {
+  friendEmail: {
     fontSize: 16,
-    marginBottom: 10,
-    color: '#333',
+    color: '#666',
+  },
+  labName: {
+    fontSize: 16,
+    fontStyle: 'italic',
+    color: '#888',
   },
   deleteButton: {
     color: 'red',

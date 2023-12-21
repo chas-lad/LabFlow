@@ -10,7 +10,7 @@ CREATE TABLE users (
 
 
 INSERT INTO users
-(firstName, surname, email, userName, pass, staff)
+(firstName, surname, email, userName, pass, staff) -- potentially two more fields - totalHoursSpentOnLabMachines
 VALUES
 ('John', 'Doe', 'johndoe@gmail.com', 'johndoe', '$2b$1', 0),
 ('Jane', 'Smith', 'janesmith@gmail.com', 'janesmith', '$2b$1', 0),
@@ -146,12 +146,13 @@ CREATE TABLE labs (
     PRIMARY KEY (id)
 );
 
+
 INSERT INTO labs
 (id, locationDescription, labName, wheelchairAccess)
 VALUES
-(1, '2nd floor, room 2.05', '2.05', 1),
-(2, '2nd floor, room 2.06', '2.06', 1),
-(3, '2nd floor, room 2.07', '2.07', 1);
+(1, 'William Henry Bragg Building: 2nd floor, room 2.05', '2.05', 1),
+(2, 'William Henry Bragg Building: 2nd floor, room 2.06', '2.06', 1),
+(3, 'William Henry Bragg Building: 2nd floor, room 2.07', '2.07', 1);
 
 
 

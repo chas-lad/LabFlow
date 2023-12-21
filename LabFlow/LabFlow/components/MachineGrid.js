@@ -86,10 +86,6 @@ function MachineGrid({ navigation }) {
           <View style={styles.modalContent}>
             <Text>{`Machine Specification:`}</Text>
             <Text>{selectedMachine.specification}</Text>
-            {/* uncomment below if I decide at later stage to include a close button */ }
-            {/* <TouchableOpacity onPress={closeModal}>
-              <Text>Close</Text>
-            </TouchableOpacity> */}
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -173,7 +169,6 @@ function MachineGrid({ navigation }) {
           }}
         >
           <Text>{`Machine ID: ${item.machineID}`}</Text>
-          <Text>{`User ID: ${item.userID || 'NULL'}`}</Text>
           <Text>{item.name}</Text>
         </View>
       </TouchableOpacity>
@@ -187,9 +182,11 @@ function MachineGrid({ navigation }) {
     },
     flatList: {
       height: Dimensions.get('window').height * 0.1, // This will take up 10% of the height
+      borderRadius: 10,
     },
     scrollView: {
       height: Dimensions.get('window').height * 0.9, // This will take up 90% of the height
+      borderRadius: 10,
     },
     modalOverlay: {
       flex: 1,
