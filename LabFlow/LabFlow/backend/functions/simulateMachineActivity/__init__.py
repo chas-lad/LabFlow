@@ -77,6 +77,21 @@ def main(mytimer: func.TimerRequest) -> None:
                 break
     
     connection.commit()
+
+    # Get the current day of the week as a string (e.g., "Mon", "Tue", ...)
+    dayOfWeek = datetime.datetime.today().strftime('%a')
+    day_column = f'totalHoursSpent{dayOfWeek}'
+
+    # Add 0.5 to the total hours spent (found in the users table) for each user which
+    # has a userID in the machines table.
+
+    cursor.execute(f"""
+        UPDATE users
+        SET {day_column} = {day_column} + 0.5
+        WHERE id IN (SELECT userID FROM machines WHERE userID IS NOT NULL)
+    """)
+
+    connection.commit()
     
     if mytimer.past_due:
        logging.info('The timer is past due!')

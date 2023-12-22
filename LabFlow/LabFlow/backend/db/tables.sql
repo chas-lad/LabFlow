@@ -5,12 +5,25 @@ CREATE TABLE users (
     email     VARCHAR(50),
     userName  VARCHAR(50),
     pass      VARCHAR(72), -- SHA 256 is 64 characters max
-    staff     BIT DEFAULT 0
+    staff     BIT DEFAULT 0,
+    totalHoursSpentMon FLOAT DEFAULT 0.0,
+    totalHoursSpentTue FLOAT DEFAULT 0.0,
+    totalHoursSpentWed FLOAT DEFAULT 0.0,
+    totalHoursSpentThu FLOAT DEFAULT 0.0,
+    totalHoursSpentFri FLOAT DEFAULT 0.0,
+    totalHoursSpentSat FLOAT DEFAULT 0.0,
+    totalHoursSpentSun FLOAT DEFAULT 0.0
 );
 
+-- SELECT 
+--     *
+-- FROM
+--     users
+-- WHERE
+--     firstName = 'Chas';
 
 INSERT INTO users
-(firstName, surname, email, userName, pass, staff) -- potentially two more fields - totalHoursSpentOnLabMachines
+(firstName, surname, email, userName, pass, staff)
 VALUES
 ('John', 'Doe', 'johndoe@gmail.com', 'johndoe', '$2b$1', 0),
 ('Jane', 'Smith', 'janesmith@gmail.com', 'janesmith', '$2b$1', 0),
@@ -135,7 +148,6 @@ VALUES
 ('Evelyn', 'Rivera', 'evelynrivera@gmail.com', 'evelynrivera', '$2b$1', 0),
 ('Jackson', 'Cooper', 'jacksoncooper@gmail.com', 'jacksoncooper', '$2b$1', 0),
 ('Lily', 'Richardson', 'lilyrichardson@gmail.com', 'lilyrichardson', '$2b$1', 0);
-
 
 
 CREATE TABLE labs (
@@ -368,6 +380,7 @@ VALUES
 (36,'Intel Core i7 10700kf CPU, 16GB RAM, RTX 3050 GPU, 500GB SSD', 8.0, 3.0, 3, NULL, NULL),
 (37,'Intel Core i7 10700kf CPU, 16GB RAM, RTX 3050 GPU, 500GB SSD', 9.0, 3.0, 3, NULL, NULL),
 (38,'Intel Core i7 10700kf CPU, 16GB RAM, RTX 3050 GPU, 500GB SSD', 10.0, 3.0, 3, NULL, NULL);
+
 
 
 CREATE TABLE friends (

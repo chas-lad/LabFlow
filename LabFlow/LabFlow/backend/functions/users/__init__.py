@@ -13,7 +13,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
             cursor.execute("""
                            SELECT
-                                *
+                                id,
+                                firstName,
+                                surname,
+                                email,
+                                userName
                            FROM 
                                 users
                            """)
