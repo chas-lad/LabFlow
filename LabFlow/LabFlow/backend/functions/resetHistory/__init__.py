@@ -5,7 +5,7 @@ from db import db_connector
 import azure.functions as func
 
 def main(mytimer: func.TimerRequest) -> None:
-    for retry_count in range(1, 4):
+    for retry_count in range(1, 6):
         try:
             logging.info('Python timer trigger function starting.')
             utc_timestamp = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
@@ -58,9 +58,9 @@ def main(mytimer: func.TimerRequest) -> None:
             logging.error(f"Error: {str(ex)}")
 
             # If this is the last attempt, log a message 
-            if retry_count == 3:
+            if retry_count == 5:
                 logging.info("Maximum retry attempts reached.")
             else:
                 # Otherwise, wait for a delay before retrying
-                logging.info(f"Retrying in {10} seconds...")
-                time.sleep(10)
+                logging.info(f"Retrying in {30} seconds...")
+                time.sleep(30)

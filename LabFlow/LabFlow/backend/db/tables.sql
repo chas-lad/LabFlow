@@ -15,12 +15,7 @@ CREATE TABLE users (
     totalHoursSpentSun FLOAT DEFAULT 0.0
 );
 
--- SELECT 
---     *
--- FROM
---     users
--- WHERE
---     firstName = 'Chas';
+
 
 INSERT INTO users
 (firstName, surname, email, userName, pass, staff)
