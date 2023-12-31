@@ -88,8 +88,10 @@ function MachineGrid() {
       <TouchableWithoutFeedback onPress={closeModal}>
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            <Text>{`Machine Specification:`}</Text>
-            <Text>{selectedMachine.specification}</Text>
+            <Text style={styles.modalTitle}>{`Machine Specification:`}</Text>
+            <Text style={styles.modalText}>{selectedMachine.specification ? selectedMachine.specification : 'Specification not available'}</Text>
+            <Text style={styles.modalTitle}>{`Machine Issues:`}</Text>
+            <Text style={styles.modalText}>{selectedMachine.commonIssues ? selectedMachine.commonIssues : 'No issues listed'}</Text>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -202,6 +204,23 @@ function MachineGrid() {
       backgroundColor: 'white',
       borderRadius: 10,
       elevation: 5, // Android elevation for shadow
+    },
+    modalContent: {
+      padding: 20,
+      backgroundColor: 'white',
+      borderRadius: 10,
+      elevation: 5, // Android elevation for shadow
+    },
+    modalTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 10,
+      color: '#333', // Text color
+    },
+    modalText: {
+      fontSize: 16,
+      color: '#555', // Text color
+      marginBottom: 15,
     },
   });
 

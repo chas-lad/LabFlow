@@ -144,7 +144,6 @@ const Friends = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.welcomeText}>Hi {loggedInUser.firstName}</Text>
       <Text style={styles.headerText}>Enter a user to add as a friend</Text>
       <TextInput
         value={friendName}
