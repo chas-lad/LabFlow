@@ -34,15 +34,15 @@ def main(mytimer: func.TimerRequest) -> None:
             day_column = f'totalHoursSpent{tomorrow}'
 
             for user_id in users_to_reset:
-                # Reset tomorrow's field to 0 (this function is run at 23:59 every night) this way we can keep track
+                # Reset tomorrow's field to 0 (this function is run at 23:50 every night) this way we can keep track
                 # of a 7 day history
                 cursor.execute(f"""
                     UPDATE users
                     SET 
                         {day_column} = 0
                     WHERE 
-                        id = {user_id}
-                            """)
+                        id = ?
+                            """, user_id)
             
             connection.commit()
             

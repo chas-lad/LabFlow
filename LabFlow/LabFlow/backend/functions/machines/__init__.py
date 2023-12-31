@@ -31,7 +31,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                                 machines
                            WHERE
                                 labID = ?
-                           """, (labID))
+                           """, labID)
                            
             machines = cursor.fetchall()
 
