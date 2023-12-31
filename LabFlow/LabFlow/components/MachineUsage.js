@@ -4,6 +4,7 @@ import { LineChart, Grid, XAxis, YAxis } from 'react-native-svg-charts';
 import { Line } from 'react-native-svg';
 import { useAuth } from './AuthContext';
 
+const apiKey = process.env.EXPO_PUBLIC_API_KEY;
 
 const LabUsageChart = ({ labUsageData }) => {
     const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -46,7 +47,7 @@ const LabUsageChart = ({ labUsageData }) => {
     );
 };
 
-const LabUsage = () => {
+const MachineUsage = ({ navigation, reloadComponent }) => {
     const [loggedInUserLabUsage, setloggedInUserLabUsage] = useState([]);
     const [averageLabUsageLoggedInUser, setAverageLabUsageLoggedInUser] = useState(null);
     const [averageLabUsageAllUsers, setAverageLabUsageAllUsers] = useState(null);
@@ -62,15 +63,13 @@ const LabUsage = () => {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
+                            'x-api-key': apiKey,
                         },
                     }
                 );
 
                 const fetchedLabUsage = await response.json();
-                console.log('fetchedLabUsage' + fetchedLabUsage);
-                console.log('loggedInUser' + loggedInUser.id);
                 const loggedInUserLabUsage = filterLabUsageByUser(fetchedLabUsage, loggedInUser.id);
-                console.log('loggedInUserLabUsage' + loggedInUserLabUsage);
                 setloggedInUserLabUsage(loggedInUserLabUsage[0]);
 
                 const totalLabUsageLoggedInUser = calculateTotalLabUsage(loggedInUserLabUsage);
@@ -89,7 +88,7 @@ const LabUsage = () => {
         };
 
         fetchLabUsageFromDatabase();
-    }, []);
+    }, [reloadComponent]);
 
     const filterLabUsageByUser = (labUsageData, userId) => {
         return labUsageData.filter((labUsage) => labUsage.id === userId);
@@ -123,7 +122,6 @@ const LabUsage = () => {
                 }
             });
         });
-        console.log(busiestDayOfWeek)
         return { totalLabUsageAllUsers, busiestDayOfWeek };
     };
 
@@ -204,4 +202,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default LabUsage;
+export default MachineUsage;

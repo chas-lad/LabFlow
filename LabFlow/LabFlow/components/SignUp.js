@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ImageBackground, StyleSheet } from 'react-native';
 import { useAuth } from './AuthContext'; // Import the useAuth hook
 
+const apiKey = process.env.EXPO_PUBLIC_API_KEY;
+
 const SignUp = ({ navigation }) => {
   const { setUser } = useAuth();
   const [userName, setUserName] = useState('');
@@ -58,6 +60,7 @@ const SignUp = ({ navigation }) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'x-api-key': apiKey,
           },
           body: JSON.stringify({ firstName, surname, email, userName, password }),
         }

@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, Dimensions, Modal, TouchableWithoutFeedback } from 'react-native';
 import { ScrollView, PinchGestureHandler } from 'react-native-gesture-handler';
 
-function MachineGrid({ navigation }) {
+const apiKey = process.env.EXPO_PUBLIC_API_KEY;
+
+function MachineGrid({ navigation, reloadComponent }) {
   const [zoomLevel, setZoomLevel] = useState(1);
   const [selectedLabID, setSelectedLabID] = useState(null);
   const [labs, setLabs] = useState([]);
@@ -20,6 +22,7 @@ function MachineGrid({ navigation }) {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            'x-api-key': apiKey,
           },
         }
       );
@@ -34,7 +37,7 @@ function MachineGrid({ navigation }) {
     };
 
     fetchLabsFromDatabase();
-  }, []);
+  }, [reloadComponent]);
 
   // Fetch the relevant lab's machine data based on the selected lab, hence dependency array on 'selectedLabID' variable
   useEffect(() => {
@@ -47,6 +50,7 @@ function MachineGrid({ navigation }) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'x-api-key': apiKey,
           },
           body: JSON.stringify({ labID: selectedLabID }),
         }

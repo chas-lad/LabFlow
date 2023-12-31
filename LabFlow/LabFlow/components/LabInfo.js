@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
-const LabInfo = () => {
+const apiKey = process.env.EXPO_PUBLIC_API_KEY;
+
+const LabInfo = ({ navigation, reloadComponent }) => {
   const [selectedLabId, setSelectedLabId] = useState(null);
   const [labs, setLabs] = useState([]);
   const [capacity, setCapacity] = useState(null);
@@ -16,6 +18,7 @@ const LabInfo = () => {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
+              'x-api-key': apiKey,
             },
           }
         );
@@ -33,7 +36,7 @@ const LabInfo = () => {
     };
 
     fetchLabsFromDatabase();
-  }, []);
+  }, [reloadComponent]);
 
   useEffect(() => {
     const fetchMachineDataFromDatabase = async () => {
@@ -44,6 +47,7 @@ const LabInfo = () => {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              'x-api-key': apiKey,
             },
             body: JSON.stringify({ labID: selectedLabId }), // Send the lab ID to the backend
           }

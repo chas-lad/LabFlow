@@ -3,7 +3,9 @@ import { View, Text, TextInput, Button, ImageBackground, TouchableOpacity, Style
 import { useFocusEffect } from '@react-navigation/native';
 import { useAuth } from './AuthContext'; // Import the useAuth hook
 
-const LoginScreen = ({ navigation }) => {
+const apiKey = process.env.EXPO_PUBLIC_API_KEY;
+
+const LoginScreen = ({ navigation}) => {
   const { setUser } = useAuth();
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -22,6 +24,7 @@ const LoginScreen = ({ navigation }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-api-key': apiKey,
         },
         body: JSON.stringify({ userName, password }),
       }

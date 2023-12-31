@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, SectionList, TouchableOpacity, StyleSheet } from 'react-native';
 
-const LabSchedule = () => {
+const apiKey = process.env.EXPO_PUBLIC_API_KEY;
+
+const LabSchedule = ({ navigation, reloadComponent }) => {
   const [schedule, setSchedule] = useState([]);
   const [collapsedDays, setCollapsedDays] = useState([]);
 
@@ -13,6 +15,7 @@ const LabSchedule = () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            'x-api-key': apiKey,
           },
         }
       );
@@ -59,7 +62,7 @@ const LabSchedule = () => {
 
   useEffect(() => {
     fetchScheduleFromDatabase();
-  }, []);
+  }, [reloadComponent]);
 
   const renderSectionHeader = ({ section }) => (
     <TouchableOpacity onPress={() => toggleSection(section.title)}>

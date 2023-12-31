@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { useAuth } from './AuthContext';
 
-const Friends = () => {
+const apiKey = process.env.EXPO_PUBLIC_API_KEY;
+
+const Friends = ({ navigation, reloadComponent }) => {
   const [friendName, setFriendName] = useState('');
   const [users, setUsers] = useState([]);
   const [matchedUsers, setMatchedUsers] = useState([]);
@@ -19,6 +21,7 @@ const Friends = () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            'x-api-key': apiKey,
           },
         }
       );
@@ -39,6 +42,7 @@ const Friends = () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            'x-api-key': apiKey,
           },
         }
       );
@@ -53,7 +57,7 @@ const Friends = () => {
   useEffect(() => {
     fetchUsersFromDatabase();
     fetchFriendsFromDatabase();
-  }, []);
+  }, [reloadComponent]);
 
   const handleFriendNameChange = (text) => {
     if (!text.trim()) {
@@ -82,6 +86,10 @@ const Friends = () => {
 
   const handleAddFriend = async () => {
     try {
+      if (!selectedUser) {
+        setErrorMessage('Please select a user to add as a friend');
+        return;
+      }
       let loggedInUserId = loggedInUser.id;
       let selectedUserId = selectedUser.id;
       const response = await fetch(
@@ -90,6 +98,7 @@ const Friends = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'x-api-key': apiKey,
           },
           body: JSON.stringify({ loggedInUserId, selectedUserId }),
         }
@@ -118,6 +127,7 @@ const Friends = () => {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
+            'x-api-key': apiKey,
           },
         }
       );
@@ -134,7 +144,7 @@ const Friends = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.welcomeText}>Welcome, {loggedInUser.firstName}</Text>
+      <Text style={styles.welcomeText}>Hi {loggedInUser.firstName}</Text>
       <Text style={styles.headerText}>Enter a user to add as a friend</Text>
       <TextInput
         value={friendName}

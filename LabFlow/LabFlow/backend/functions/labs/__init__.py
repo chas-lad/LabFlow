@@ -1,10 +1,19 @@
+import os
 import azure.functions as func
 from  db import db_connector
 import logging
 import json
 
+API_KEY = os.environ.get("API_KEY")
+
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
+
+    api_key = req.headers.get("x-api-key")
+
+    # Check if the API key is valid
+    if api_key != API_KEY:
+        return func.HttpResponse("Unauthorized: Invalid API key", status_code=401)
 
     if req.method == 'GET':
         try:
