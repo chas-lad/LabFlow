@@ -4,7 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 
 const apiKey = process.env.EXPO_PUBLIC_API_KEY;
 
-const LabInfo = ({ navigation, reloadComponent }) => {
+const LabInfo = () => {
   const [selectedLabId, setSelectedLabId] = useState(null);
   const [labs, setLabs] = useState([]);
   const [capacity, setCapacity] = useState(null);
@@ -36,7 +36,7 @@ const LabInfo = ({ navigation, reloadComponent }) => {
     };
 
     fetchLabsFromDatabase();
-  }, [reloadComponent]);
+  }, []);
 
   useEffect(() => {
     const fetchMachineDataFromDatabase = async () => {

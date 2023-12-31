@@ -47,7 +47,7 @@ const LabUsageChart = ({ labUsageData }) => {
     );
 };
 
-const MachineUsage = ({ navigation, reloadComponent }) => {
+const MachineUsage = () => {
     const [loggedInUserLabUsage, setloggedInUserLabUsage] = useState([]);
     const [averageLabUsageLoggedInUser, setAverageLabUsageLoggedInUser] = useState(null);
     const [averageLabUsageAllUsers, setAverageLabUsageAllUsers] = useState(null);
@@ -88,7 +88,7 @@ const MachineUsage = ({ navigation, reloadComponent }) => {
         };
 
         fetchLabUsageFromDatabase();
-    }, [reloadComponent]);
+    }, []);
 
     const filterLabUsageByUser = (labUsageData, userId) => {
         return labUsageData.filter((labUsage) => labUsage.id === userId);

@@ -4,7 +4,7 @@ import { ScrollView, PinchGestureHandler } from 'react-native-gesture-handler';
 
 const apiKey = process.env.EXPO_PUBLIC_API_KEY;
 
-function MachineGrid({ navigation, reloadComponent }) {
+function MachineGrid() {
   const [zoomLevel, setZoomLevel] = useState(1);
   const [selectedLabID, setSelectedLabID] = useState(null);
   const [labs, setLabs] = useState([]);
@@ -37,7 +37,7 @@ function MachineGrid({ navigation, reloadComponent }) {
     };
 
     fetchLabsFromDatabase();
-  }, [reloadComponent]);
+  }, []);
 
   // Fetch the relevant lab's machine data based on the selected lab, hence dependency array on 'selectedLabID' variable
   useEffect(() => {

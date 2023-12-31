@@ -4,7 +4,7 @@ import { useAuth } from './AuthContext';
 
 const apiKey = process.env.EXPO_PUBLIC_API_KEY;
 
-const Friends = ({ navigation, reloadComponent }) => {
+const Friends = () => {
   const [friendName, setFriendName] = useState('');
   const [users, setUsers] = useState([]);
   const [matchedUsers, setMatchedUsers] = useState([]);
@@ -57,7 +57,7 @@ const Friends = ({ navigation, reloadComponent }) => {
   useEffect(() => {
     fetchUsersFromDatabase();
     fetchFriendsFromDatabase();
-  }, [reloadComponent]);
+  }, []);
 
   const handleFriendNameChange = (text) => {
     if (!text.trim()) {

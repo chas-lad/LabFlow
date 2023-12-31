@@ -3,7 +3,7 @@ import { View, Text, SectionList, TouchableOpacity, StyleSheet } from 'react-nat
 
 const apiKey = process.env.EXPO_PUBLIC_API_KEY;
 
-const LabSchedule = ({ navigation, reloadComponent }) => {
+const LabSchedule = () => {
   const [schedule, setSchedule] = useState([]);
   const [collapsedDays, setCollapsedDays] = useState([]);
 
@@ -62,7 +62,7 @@ const LabSchedule = ({ navigation, reloadComponent }) => {
 
   useEffect(() => {
     fetchScheduleFromDatabase();
-  }, [reloadComponent]);
+  }, []);
 
   const renderSectionHeader = ({ section }) => (
     <TouchableOpacity onPress={() => toggleSection(section.title)}>
