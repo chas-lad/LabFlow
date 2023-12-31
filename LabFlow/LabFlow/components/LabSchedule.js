@@ -93,7 +93,6 @@ const LabSchedule = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Lab Schedule</Text>
       {schedule && schedule.length > 0 ? (
         <SectionList
           sections={schedule}

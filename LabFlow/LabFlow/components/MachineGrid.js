@@ -227,10 +227,14 @@ function MachineGrid() {
             height: contentHeight,
           }}
         >
-          {machineData.map((item) => renderItem({ item, key: item.machineID.toString() }))}
+          {machineData.map((item) => (
+            // Correct placement of the key prop
+            <React.Fragment key={item.machineID.toString()}>
+              {renderItem({ item })}
+            </React.Fragment>
+          ))}
         </ScrollView>
       </PinchGestureHandler>
-
       <Modal visible={isModalVisible} transparent animationType="slide">
         {renderModalContent()}
       </Modal>

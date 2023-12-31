@@ -11,7 +11,7 @@
   "dependencies": {
     "@react-native-community/art": "^1.2.0",
     "@react-native-community/viewpager": "5.0.11",
-    "@react-native-picker/picker": "^2.6.1",
+    "@react-native-picker/picker": "2.4.10",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
@@ -34,7 +34,7 @@
     "react-native-screens": "~3.22.0",
     "react-native-sha256": "^1.4.9",
     "react-native-simple-gauge": "^0.3.1",
-    "react-native-svg": "^14.1.0",
+    "react-native-svg": "13.9.0",
     "react-native-svg-charts": "^5.4.0",
     "react-native-vector-icons": "^10.0.3"
   },
