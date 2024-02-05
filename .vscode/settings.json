@@ -1,0 +1,9 @@
+{
+    "azureFunctions.deploySubpath": "LabFlow/LabFlow/backend/functions",
+    "azureFunctions.scmDoBuildDuringDeployment": true,
+    "azureFunctions.pythonVenv": ".venv",
+    "azureFunctions.projectLanguage": "Python",
+    "azureFunctions.projectRuntime": "~4",
+    "debug.internalConsoleOptions": "neverOpen",
+    "azureFunctions.projectSubpath": "LabFlow/LabFlow/backend/functions"
+}

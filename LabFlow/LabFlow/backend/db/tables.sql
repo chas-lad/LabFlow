@@ -144,23 +144,23 @@ VALUES
 ('Jackson', 'Cooper', 'jacksoncooper@gmail.com', 'jacksoncooper', '$2b$1', 0),
 ('Lily', 'Richardson', 'lilyrichardson@gmail.com', 'lilyrichardson', '$2b$1', 0);
 
-
 CREATE TABLE labs (
     id                  INT,
     locationDescription VARCHAR(1000),
     labName             VARCHAR(50),
-    wheelchairAccess    BIT DEFAULT 1
+    wheelchairAccess    BIT DEFAULT 1,
+    latitude            FLOAT,
+    longitude           FLOAT,
     PRIMARY KEY (id)
 );
 
 
 INSERT INTO labs
-(id, locationDescription, labName, wheelchairAccess)
+(id, locationDescription, labName, wheelchairAccess, latitude, longitude)
 VALUES
-(1, 'William Henry Bragg Building: 2nd floor, room 2.05', '2.05', 1),
-(2, 'William Henry Bragg Building: 2nd floor, room 2.06', '2.06', 1),
-(3, 'William Henry Bragg Building: 2nd floor, room 2.07', '2.07', 1);
-
+(1, 'William Henry Bragg Building: 2nd floor, room 2.05', '2.05', 1, 53.80918723181025, -1.5538067297490388),
+(2, 'William Henry Bragg Building: 2nd floor, room 2.06', '2.06', 1, 53.80918723181025, -1.5538067297490388),
+(3, 'William Henry Bragg Building: 2nd floor, room 2.07', '2.07', 1, 53.80918723181025, -1.5538067297490388);
 
 
 CREATE TABLE machines (
@@ -324,7 +324,6 @@ VALUES
 (28,'Intel Core i7 10700kf CPU, 16GB RAM, RTX 3050 GPU, 500GB SSD', 6.0, 2.5, 2, NULL, NULL),
 (29,'Intel Core i7 10700kf CPU, 16GB RAM, RTX 3050 GPU, 500GB SSD', 6.0, 3.5, 2, NULL, NULL);
 
-
 -- Insert records for lab 2.07 machines (labID = 3)
 INSERT INTO machines
 (machineID, specification, xPos, yPos, labID, commonIssues, userID)
@@ -394,7 +393,6 @@ CREATE TABLE teachingSchedule (
     endTime DATETIME,
     labId INT FOREIGN KEY REFERENCES labs(id)
 );
-
 
 INSERT INTO teachingSchedule
 (module, lecturerName, dayOfWeek, startTime, endTime, labId)

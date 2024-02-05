@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import MapView, { Marker } from 'react-native-maps';
+
 
 const apiKey = process.env.EXPO_PUBLIC_API_KEY;
 
 const LabInfo = () => {
   const [selectedLabId, setSelectedLabId] = useState(null);
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
   const [labs, setLabs] = useState([]);
   const [capacity, setCapacity] = useState(null);
 
@@ -26,10 +30,15 @@ const LabInfo = () => {
         const fetchedLabs = await response.json();
         setLabs(fetchedLabs);
 
-        // Initially select the first lab's ID
+        // Initially select the first lab's ID, we are presuming there is at least one lab
         if (fetchedLabs.length > 0) {
           setSelectedLabId(fetchedLabs[0].id); // Set the lab ID
         }
+
+        // Set the initial location of the map
+        setLatitude(fetchedLabs[0].latitude.toFixed(4));
+        setLongitude(fetchedLabs[0].longitude.toFixed(4));
+
       } catch (error) {
         console.error('Error fetching labs:', error);
       }
@@ -69,6 +78,8 @@ const LabInfo = () => {
         });
 
         setCapacity(Math.round((currentCapacity / maxCapacity) * 100));
+        setLatitude(labs.find((lab) => lab.id == selectedLabId).latitude.toFixed(4));
+        setLongitude(labs.find((lab) => lab.id == selectedLabId).longitude.toFixed(4));
       } catch (error) {
         console.error('Error fetching machines:', error);
       }
@@ -116,6 +127,22 @@ const LabInfo = () => {
           {capacity}% Spaces Occupied
         </Text>
       )}
+      {latitude !== null && longitude !== null && (
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude,
+            longitude,
+            latitudeDelta: 0.005,
+            longitudeDelta: 0.005,
+          }}
+        >
+          <Marker
+            coordinate={{ latitude, longitude }}
+            title={`Lab ${labs.find((lab) => lab.id == selectedLabId)?.labName}`}
+          />
+        </MapView>
+      )}
     </View>
   );
 };
@@ -156,6 +183,12 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  map: {
+    flex: 1,
+    width: '100%',
+    height: 200,
+    marginVertical: 16,
   },
 });
 
