@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, Dimensions, Modal, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, Dimensions, Modal, TouchableWithoutFeedback, TextInput } from 'react-native';
 import { ScrollView, PinchGestureHandler } from 'react-native-gesture-handler';
+import { useAuth } from './AuthContext';
+
 
 const apiKey = process.env.EXPO_PUBLIC_API_KEY;
 
@@ -11,6 +13,19 @@ function MachineGrid() {
   const [machineData, setMachineData] = useState([]);
   const [selectedMachine, setSelectedMachine] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isTicketFormVisible, setIsTicketFormVisible] = useState(false);
+  const { loggedInUser } = useAuth();
+  const [ticketFormData, setTicketFormData] = useState({
+    machineID: selectedMachine ? selectedMachine.machineID : "",
+    userID: loggedInUser.id, 
+    issueDescription: "",
+    issueStatus: 1, 
+    dateCreated: new Date().toISOString(), // Automatically set the creation date
+    dateResolved: "" // Initially empty until resolved
+  });
+  const [errorMessage, setErrorMessage] = useState(null); // State for error message
+
+
 
   useEffect(() => {
 
@@ -56,7 +71,6 @@ function MachineGrid() {
         }
       );
       
-      //fetchedMachines = response.machines;
       const fetchedMachines = await response.json();
       setMachineData(fetchedMachines);
     };
@@ -81,22 +95,109 @@ function MachineGrid() {
     setSelectedMachine(null);
   };
 
+  const handleTicketFormSubmit = async () => {
+    try {
+      // Check if issue description exceeds the character limit
+      if (ticketFormData.issueDescription.length > 1000) {
+        setErrorMessage('Issue description cannot exceed 1000 characters.'); // Set error message
+        return; // Prevent submission
+      }
+
+      if (ticketFormData.issueDescription.length == 0) {
+        setErrorMessage('Issue description cannot be empty.'); // Set error message
+        return; // Prevent submission
+      }
+
+      // Make a POST request to your backend API to create a ticket
+      const response = await fetch('https://labflowbackend.azurewebsites.net/api/tickets?', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+        },
+        body: JSON.stringify(ticketFormData),
+      });
+
+      // Handle response as needed
+      if (response.ok) {
+        // Ticket created successfully
+        // You may close the form modal and show a success message
+        handleCloseTicketForm();
+      } else {
+        // Handle error response
+        console.error('Failed to create ticket:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error creating ticket:', error);
+    }
+  };
+
+  const handleCloseTicketForm = () => {
+    setIsTicketFormVisible(false);
+    // Reset ticket form data if needed
+    setTicketFormData({
+      machineID: selectedMachine ? selectedMachine.machineID : "",
+      userID: loggedInUser.id,
+      issueDescription: "",
+      issueStatus: 1,
+      dateCreated: new Date().toISOString(),
+      dateResolved: ""
+    });
+    // Reset error message
+    setErrorMessage(null);
+  };
+
   const renderModalContent = () => {
     if (!selectedMachine) return null;
-
+  
     return (
-      <TouchableWithoutFeedback onPress={closeModal}>
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>{`Machine Specification:`}</Text>
-            <Text style={styles.modalText}>{selectedMachine.specification ? selectedMachine.specification : 'Specification not available'}</Text>
-            <Text style={styles.modalTitle}>{`Machine Issues:`}</Text>
-            <Text style={styles.modalText}>{selectedMachine.commonIssues ? selectedMachine.commonIssues : 'No issues listed'}</Text>
+      <React.Fragment>
+        {/* Machine Specification Modal */}
+        <TouchableWithoutFeedback onPress={closeModal}>
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>{`Machine Specification:`}</Text>
+              <Text style={styles.modalText}>{selectedMachine.specification ? selectedMachine.specification : 'Specification not available'}</Text>
+              <Text style={styles.modalTitle}>{`Machine Issues:`}</Text>
+              <Text style={styles.modalText}>{selectedMachine.commonIssues ? selectedMachine.commonIssues : 'No issues listed'}</Text>
+              <TouchableOpacity onPress={() => setIsTicketFormVisible(true)}>
+                <Text style={styles.ticketButton}>Report Issue</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+        
+        {/* Report Issue Modal */}
+        <Modal visible={isTicketFormVisible} transparent animationType="slide">
+          <TouchableWithoutFeedback onPress={handleCloseTicketForm}>
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalContent}>
+                {/* Ticket form components */}
+                <Text style={styles.ticketText}>Please enter an issue of the description below:</Text>
+                <TextInput
+                  value={ticketFormData.issueDescription}
+                  onChangeText={(text) => setTicketFormData({...ticketFormData, issueDescription: text})}
+                  style={styles.input}
+                  maxLength={1000}
+                />
+                <TouchableOpacity onPress={handleTicketFormSubmit}>
+                  <Text style={styles.submitButton}>Submit Ticket</Text>
+                </TouchableOpacity>
+                {errorMessage && (
+                <View style={styles.errorContainer}>
+                  <Text style={styles.errorMessage}>{errorMessage}</Text>
+                </View>
+                )}
+                {/* No need for a close button here */}
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+      </React.Fragment>
     );
   };
+  
+  
 
   const handlePinch = (event) => {
     const scale = event.nativeEvent.scale;
@@ -222,6 +323,83 @@ function MachineGrid() {
       color: '#555', // Text color
       marginBottom: 15,
     },
+    // Styles for the report issue button
+    ticketButton: {
+      backgroundColor: '#4CAF50', // Green color
+      padding: 10,
+      borderRadius: 5,
+      marginTop: 10,
+      alignItems: 'center',
+    },
+    ticketButtonText: {
+      color: 'white',
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
+
+    // Styles for the report issue modal
+    modalOverlay: {
+      flex: 1,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black background
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    modalContent: {
+      backgroundColor: 'white',
+      borderRadius: 10,
+      padding: 20,
+      width: '80%', // 80% of the screen width
+      alignItems: 'center',
+    },
+    modalTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 10,
+      color: '#333', // Text color
+    },
+    modalText: {
+      fontSize: 16,
+      color: '#555', // Text color
+      marginBottom: 15,
+    },
+    input: {
+      width: '100%',
+      padding: 10,
+      borderWidth: 1,
+      borderColor: '#ccc',
+      borderRadius: 5,
+      marginBottom: 15,
+    },
+    submitButton: {
+      backgroundColor: '#4CAF50', // Green color
+      padding: 10,
+      borderRadius: 5,
+      marginTop: 10,
+      alignItems: 'center',
+    },
+    submitButtonText: {
+      color: 'white',
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
+    closeButton: {
+      backgroundColor: '#f44336', // Red color
+      padding: 10,
+      borderRadius: 5,
+      marginTop: 10,
+      alignItems: 'center',
+    },
+    closeButtonText: {
+      color: 'white',
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
+    ticketText: {
+      
+      textAlign: 'center',
+    
+    }
+
   });
 
   return (

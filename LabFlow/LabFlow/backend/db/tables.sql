@@ -478,4 +478,17 @@ VALUES
     3
 );
 
+-- Note both machineID and labID are primary keys in the machines table
+CREATE TABLE tickets (
+    ticketID INT IDENTITY(1,1) PRIMARY KEY,
+    machineID INT,
+    labID INT,
+    userID INT FOREIGN KEY REFERENCES users(id),
+    issueDescription VARCHAR(1000),
+    issueStatus BIT,
+    dateCreated DATETIME,
+    dateResolved DATETIME NULL,
+    FOREIGN KEY (machineID, labID) REFERENCES machines(machineID, labID)
+);
+
 
