@@ -51,14 +51,13 @@ const LabInfo = () => {
     const fetchMachineDataFromDatabase = async () => {
       try {
         const response = await fetch(
-          'https://labflowbackend.azurewebsites.net/api/machines?',
+          `https://labflowbackend.azurewebsites.net/api/machines?labID=${selectedLabId}`,
           {
-            method: 'POST',
+            method: 'GET',
             headers: {
               'Content-Type': 'application/json',
               'x-api-key': apiKey,
-            },
-            body: JSON.stringify({ labID: selectedLabId }), // Send the lab ID to the backend
+            }
           }
         );
 

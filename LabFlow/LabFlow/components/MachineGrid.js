@@ -5,12 +5,11 @@ import { useAuth } from './AuthContext';
 
 import MachineGridModal from './MachineGridModal'; // Import MachineGridModal component
 
-
 const apiKey = process.env.EXPO_PUBLIC_API_KEY;
 
 function MachineGrid() {
   const [zoomLevel, setZoomLevel] = useState(1);
-  const [selectedLabID, setSelectedLabID] = useState(null);
+  const [selectedLabID, setSelectedLabID] = useState(1);
   const [labs, setLabs] = useState([]);
   const [machineData, setMachineData] = useState([]);
   const [selectedMachine, setSelectedMachine] = useState(null);
@@ -29,7 +28,7 @@ function MachineGrid() {
           headers: {
             'Content-Type': 'application/json',
             'x-api-key': apiKey,
-          },
+          }
         }
       );
 
@@ -49,21 +48,25 @@ function MachineGrid() {
   useEffect(() => {
     // Replace this with your actual API call to fetch machine data from the database
     const fetchMachineDataFromDatabase = async () => {
-      // Fetch machines based on the selected lab and update the state
-      const response = await fetch(
-        'https://labflowbackend.azurewebsites.net/api/machines?',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': apiKey,
-          },
-          body: JSON.stringify({ labID: selectedLabID }),
-        }
-      );
-      
-      const fetchedMachines = await response.json();
-      setMachineData(fetchedMachines);
+      try {
+        // Fetch machines based on the selected lab and update the state
+        const response = await fetch(
+          `https://labflowbackend.azurewebsites.net/api/machines?labID=${selectedLabID}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-key': apiKey,
+            },
+          }
+        );
+
+        const fetchedMachines = await response.json();
+
+        setMachineData(fetchedMachines);
+      } catch (error) {
+        console.error('Error fetching machines:', error);
+      }
     };
 
     fetchMachineDataFromDatabase();
