@@ -1,3 +1,8 @@
+###########################################################
+## Title:       Friends API
+## Methods:     POST, GET, DELETE
+###########################################################
+
 import os
 import azure.functions as func
 from  db import db_connector

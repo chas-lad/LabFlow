@@ -1,10 +1,13 @@
+-- Database schema for the lab management system.
+-- Used to populate our database with mock data for demo purposes.
+
 CREATE TABLE users (
     id        INT IDENTITY(1,1) PRIMARY KEY,
     firstName VARCHAR(50),
     surname   VARCHAR(50),
     email     VARCHAR(50),
     userName  VARCHAR(50),
-    pass      VARCHAR(72), -- SHA 256 is 64 characters max
+    pass      VARCHAR(72), -- SHA 256 is 64 characters max (Add a couple extra for salt and pepper)
     staff     BIT DEFAULT 0,
     totalHoursSpentMon FLOAT DEFAULT 0.0,
     totalHoursSpentTue FLOAT DEFAULT 0.0,

@@ -1,3 +1,8 @@
+///////////////////////////////////////////////////////////
+// Title:       Home.js
+// Description: Code to manage switching between our tabs
+///////////////////////////////////////////////////////////
+
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LabInfo from './LabInfo';
@@ -5,7 +10,6 @@ import MachineGrid from './MachineGrid';
 import Friends from './Friends';
 import MachineUsage from './MachineUsage';
 import LabSchedule from './LabSchedule';
-
 
 // Import the components for each tab
 const Tab = createBottomTabNavigator();

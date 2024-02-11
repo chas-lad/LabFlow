@@ -1,3 +1,10 @@
+///////////////////////////////////////////////////////////
+// Title:       MachineGrid.js
+// Description: Code to display the machine grid view and
+//              handles visibility of machine details
+//              modal and report issue modal
+///////////////////////////////////////////////////////////
+
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, Dimensions, Modal } from 'react-native';
 import { ScrollView, PinchGestureHandler } from 'react-native-gesture-handler';
@@ -16,11 +23,10 @@ function MachineGrid() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { loggedInUser } = useAuth();
 
-
+  // Fetch the labs from the database and update the state on component mount
   useEffect(() => {
 
     const fetchLabsFromDatabase = async () => {
-      // Fetch labs from the database and update the state
       const response = await fetch(
         'https://labflowbackend.azurewebsites.net/api/labs?',
         {
@@ -44,9 +50,9 @@ function MachineGrid() {
     fetchLabsFromDatabase();
   }, []);
 
-  // Fetch the relevant lab's machine data based on the selected lab, hence dependency array on 'selectedLabID' variable
+  // Fetch the relevant lab's machine data based on the selected lab,
+  // hence dependency array on 'selectedLabID' variable
   useEffect(() => {
-    // Replace this with your actual API call to fetch machine data from the database
     const fetchMachineDataFromDatabase = async () => {
       try {
         // Fetch machines based on the selected lab and update the state
@@ -72,11 +78,11 @@ function MachineGrid() {
     fetchMachineDataFromDatabase();
   }, [selectedLabID]);
 
-  const containerSize = 100;
-  const sensitivity = 0.2; // Adjust the zoom sensitivity as needed
-  const minZoomLevel = 0.5; // Adjust the minimum zoom level
-  const maxZoomLevel = 2; // Adjust the maximum zoom level
-  const padding = 50; // Adjust the padding as needed
+  const containerSize = 100; // Each machine is represented by a square container
+  const sensitivity = 0.2; // Zoom sensitivity 
+  const minZoomLevel = 0.5; // Minimum zoom level
+  const maxZoomLevel = 2; // Maximum zoom level
+  const padding = 50; // Padding between containers
 
 
   const handleMachinePress = (item) => {
@@ -120,6 +126,7 @@ function MachineGrid() {
 
   const { contentWidth, contentHeight } = calculateContentSize();
 
+  // Render the tabs for lab selection
   const renderTab = ({ item }) => (
     <TouchableOpacity
       key={item.id.toString()} 
@@ -133,7 +140,8 @@ function MachineGrid() {
       <Text>{item.labName}</Text>
     </TouchableOpacity>
   );
-
+  
+  // Render the machine containers
   const renderItem = ({ item }) => {
     const adjustedSize = containerSize * zoomLevel;
     const adjustedX = item.xPos * adjustedSize + padding;

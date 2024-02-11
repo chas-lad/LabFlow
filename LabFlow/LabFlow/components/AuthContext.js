@@ -1,12 +1,18 @@
+///////////////////////////////////////////////////////////
+// Title:       AuthContext.js
+// Description: Code to create a context and a provider to
+//              manage the user state
+///////////////////////////////////////////////////////////
+
 import React, { createContext, useContext, useReducer } from 'react';
 
-// Create a context with initial values
+// Context with initial values
 const AuthContext = createContext({
   user: null,
   setUser: () => {},
 });
 
-// Create a reducer to manage state changes
+// Reducer to manage state changes
 const authReducer = (state, action) => {
   switch (action.type) {
     case 'SET_USER':
@@ -16,7 +22,7 @@ const authReducer = (state, action) => {
   }
 };
 
-// Create an AuthProvider component to wrap your app
+// AuthProvider component to wrap the app
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, { loggedInUser: null });
 
@@ -31,7 +37,7 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Create a custom hook to access the AuthContext values
+// Custom hook to access the AuthContext values
 export const useAuth = () => {
   return useContext(AuthContext);
 };

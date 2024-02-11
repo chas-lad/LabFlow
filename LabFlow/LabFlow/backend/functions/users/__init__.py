@@ -1,3 +1,8 @@
+###########################################################
+## Title:       Users API
+## Methods:     GET
+###########################################################
+
 import os
 import logging
 from db import db_connector

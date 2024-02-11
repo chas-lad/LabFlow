@@ -1,6 +1,12 @@
+///////////////////////////////////////////////////////////
+// Title:       SignUp.js
+// Description: Code to display the sign up form and
+//              capture user's details.
+///////////////////////////////////////////////////////////
+
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ImageBackground, StyleSheet } from 'react-native';
-import { useAuth } from './AuthContext'; // Import the useAuth hook
+import { useAuth } from './AuthContext'; 
 
 const apiKey = process.env.EXPO_PUBLIC_API_KEY;
 
@@ -18,6 +24,7 @@ const SignUp = ({ navigation }) => {
   const [firstNameError, setFirstNameError] = useState('');
   const [surnameError, setSurnameError] = useState('');
 
+  // Functions to handle validation of user input
   const validateFirstName = (name) => {
     const isValid = /^[a-zA-Z-]{1,50}$/.test(name);
     setFirstNameError(isValid ? '' : 'First name must be 1-50 characters and only contain letters and hyphens');
@@ -48,6 +55,7 @@ const SignUp = ({ navigation }) => {
     return isValid;
   };
 
+  // Function to handle user sign up
   const handleSignup = async () => {
     try {
       if (!validateFirstName(firstName) || !validateSurname(surname) || !validateEmail(email) || !validateUserName(userName) || !validatePassword(password)) {
@@ -146,14 +154,14 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   customButton: {
-    backgroundColor: 'green', // Customize the button color
+    backgroundColor: 'green', 
     padding: 10,
     borderRadius: 5,
     width: '100%',
     alignItems: 'center',
   },
   signUpButton: {
-    backgroundColor: 'blue', // Customize the button color
+    backgroundColor: 'blue', 
     padding: 5,
     borderRadius: 3,
     width: '50%',
@@ -172,7 +180,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
-
 
 export default SignUp;

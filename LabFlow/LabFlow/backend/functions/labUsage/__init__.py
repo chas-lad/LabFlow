@@ -1,3 +1,8 @@
+###########################################################
+## Title:       LabUsage API
+## Methods:     GET
+###########################################################
+
 import os
 import azure.functions as func
 from  db import db_connector

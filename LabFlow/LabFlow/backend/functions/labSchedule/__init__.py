@@ -1,3 +1,8 @@
+###########################################################
+## Title:       LabSchedule API
+## Methods:     GET
+###########################################################
+
 import os
 import logging
 from  db import db_connector
@@ -19,7 +24,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             try:
                 connection = db_connector()
                 cursor = connection.cursor()
-
+                # Retrieve the lab schedules for the selected lab
                 cursor.execute("""
                             SELECT
                                 ts.id,

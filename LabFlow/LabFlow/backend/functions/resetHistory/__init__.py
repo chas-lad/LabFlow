@@ -1,3 +1,12 @@
+###########################################################
+## Title:       Reset History Cron Job
+## Description: This function is triggered every night at
+##              23:50 to reset the totalHoursSpent<day>
+##              field for all users to 0, where <day> is
+##              the next day of the week. This way we can
+##              keep track of a 7 day history.
+###########################################################
+
 import datetime
 import time
 import logging

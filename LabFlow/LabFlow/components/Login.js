@@ -1,7 +1,12 @@
+///////////////////////////////////////////////////////////
+// Title:       Login.js
+// Description: Code to display the login screen
+///////////////////////////////////////////////////////////
+
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, ImageBackground, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, ImageBackground, TouchableOpacity, StyleSheet } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { useAuth } from './AuthContext'; // Import the useAuth hook
+import { useAuth } from './AuthContext'; 
 
 const apiKey = process.env.EXPO_PUBLIC_API_KEY;
 
@@ -11,12 +16,14 @@ const LoginScreen = ({ navigation}) => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
 
+  // Clear the error message when the user navigates to this screen
   useFocusEffect(
     React.useCallback(() => {
       setErrorMessage(null);
     }, [])
   );
-
+  
+  // Handle the login button press
   const handleLogin = async () => {
     const response = await fetch(
       'https://labflowbackend.azurewebsites.net/api/login?',
@@ -107,14 +114,14 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   loginButton: {
-    backgroundColor: 'green', // Customize the button color
+    backgroundColor: 'green', 
     padding: 10,
     borderRadius: 5,
     width: '100%',
     alignItems: 'center',
   },
   signUpButton: {
-    backgroundColor: 'blue', // Customize the button color
+    backgroundColor: 'blue', 
     padding: 5,
     borderRadius: 3,
     width: '50%',

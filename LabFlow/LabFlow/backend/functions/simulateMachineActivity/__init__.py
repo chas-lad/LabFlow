@@ -1,3 +1,13 @@
+###########################################################
+## Title:       SimulateMachine Cron Job
+## Description: This function is triggered at a set
+##              interval to simulate machine activity by
+##              assigning users to machines. It also
+##              updates the total hours spent for each user
+##              in the users table for the current day of
+##              the week.
+###########################################################
+
 import datetime
 import logging
 from db import db_connector

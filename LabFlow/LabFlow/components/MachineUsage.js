@@ -1,3 +1,9 @@
+///////////////////////////////////////////////////////////
+// Title:       MachineUsage.js
+// Description: Code to display the machine usage 
+//              statistics for the logged in user
+///////////////////////////////////////////////////////////
+
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { LineChart, Grid, XAxis, YAxis } from 'react-native-svg-charts';
@@ -6,6 +12,7 @@ import { useAuth } from './AuthContext';
 
 const apiKey = process.env.EXPO_PUBLIC_API_KEY;
 
+// LabUsageChart component to display the lab usage chart
 const LabUsageChart = ({ labUsageData }) => {
     const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -13,7 +20,6 @@ const LabUsageChart = ({ labUsageData }) => {
     const data = daysOfWeek.map((day) => labUsageData[`totalHoursSpent${day}`]);
 
     const labels = daysOfWeek;
-
     const contentInset = { top: 20, bottom: 20 };
 
     return (
@@ -47,6 +53,7 @@ const LabUsageChart = ({ labUsageData }) => {
     );
 };
 
+// MachineUsage component to display the machine usage statistics
 const MachineUsage = () => {
     const [loggedInUserLabUsage, setloggedInUserLabUsage] = useState([]);
     const [averageLabUsageLoggedInUser, setAverageLabUsageLoggedInUser] = useState(null);
@@ -104,7 +111,7 @@ const MachineUsage = () => {
         }, 0);
     };
     
-
+    // Calculate the total lab usage for all users and the busiest day
     const calculateAllUsersLabUsage = (labUsageData) => {
         let totalLabUsageAllUsers = 0;
         let busiestDayTotal = 0;
@@ -125,6 +132,7 @@ const MachineUsage = () => {
         return { totalLabUsageAllUsers, busiestDayOfWeek };
     };
 
+    // Format the time in hours to display in hours and minutes
     const formatTime = (hours) => {
         const totalMinutes = hours * 60;
         const formattedHours = Math.floor(totalMinutes / 60);
@@ -146,7 +154,6 @@ const MachineUsage = () => {
         return result;
     };
 
-      
     return (
         <View style={styles.container}>
             <Text style={styles.text}>Your daily lab machine usage:</Text>
@@ -168,13 +175,13 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#f0f0f0', // Change background color as needed
+        backgroundColor: '#f0f0f0', 
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
-        color: '#333', // Change text color as needed
+        color: '#333', 
     },
     chartContainer: {
         flexDirection: 'row',
@@ -188,17 +195,17 @@ const styles = StyleSheet.create({
     text: {
         marginVertical: 10,
         fontSize: 18,
-        color: '#555', // Change text color as needed
+        color: '#555', 
     },
     averageText: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#333', // Change text color as needed
+        color: '#333', 
     },
     busiestDay: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: 'green', // Change text color as needed
+        color: 'green',
     },
 });
 

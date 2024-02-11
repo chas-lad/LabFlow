@@ -1,8 +1,13 @@
+///////////////////////////////////////////////////////////
+// Title:       LabInfo.js
+// Description: Code to manage the home screen, showing
+//              lab capacity, description and location
+///////////////////////////////////////////////////////////
+
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import MapView, { Marker } from 'react-native-maps';
-
 
 const apiKey = process.env.EXPO_PUBLIC_API_KEY;
 
@@ -13,6 +18,7 @@ const LabInfo = () => {
   const [labs, setLabs] = useState([]);
   const [capacity, setCapacity] = useState(null);
 
+  // Fetch the labs from the database on component mount
   useEffect(() => {
     const fetchLabsFromDatabase = async () => {
       try {
@@ -47,6 +53,8 @@ const LabInfo = () => {
     fetchLabsFromDatabase();
   }, []);
 
+  // Fetch the relevant lab's machine data based on the selected lab,
+  // hence dependency array on 'selectedLabId' variable
   useEffect(() => {
     const fetchMachineDataFromDatabase = async () => {
       try {
@@ -152,30 +160,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: '#f0f0f0', // Background color
+    backgroundColor: '#f0f0f0', 
   },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
-    color: '#333', // Text color
+    color: '#333', 
   },
   picker: {
     width: '100%',
     marginBottom: 16,
-    backgroundColor: '#fff', // Picker background color
+    backgroundColor: '#fff',
     borderRadius: 5,
   },
   accessText: {
     fontSize: 20,
     marginBottom: 8,
-    color: 'green', // Access text color
+    color: 'green',
     textAlign: 'center',
   },
   locationText: {
     fontSize: 20,
     marginBottom: 8,
-    color: '#333', // Location text color
+    color: '#333', 
     textAlign: 'center',
   },
   capacityText: {

@@ -1,8 +1,13 @@
+///////////////////////////////////////////////////////////
+// Title:       MachineGridModal.js
+// Description: Code to display the machine details modal
+//              and modal to create a ticket
+///////////////////////////////////////////////////////////
+
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Modal, TouchableWithoutFeedback, TextInput, StyleSheet } from 'react-native';
 
 const apiKey = process.env.EXPO_PUBLIC_API_KEY;
-
 
 function MachineGridModal({ selectedMachine, loggedInUser, closeModal }) {
   const [isTicketFormVisible, setIsTicketFormVisible] = useState(false);
@@ -20,16 +25,16 @@ function MachineGridModal({ selectedMachine, loggedInUser, closeModal }) {
     try {
       // Check if issue description exceeds the character limit
       if (ticketFormData.issueDescription.length > 1000) {
-        setErrorMessage('Issue description cannot exceed 1000 characters.'); // Set error message
+        setErrorMessage('Issue description cannot exceed 1000 characters.');
         return; // Prevent submission
       }
 
       if (ticketFormData.issueDescription.length == 0) {
-        setErrorMessage('Issue description cannot be empty.'); // Set error message
+        setErrorMessage('Issue description cannot be empty.'); 
         return; // Prevent submission
       }
 
-      // Make a POST request to your backend API to create a ticket
+      // POST request to backend API to create a ticket
       const response = await fetch('https://labflowbackend.azurewebsites.net/api/tickets?', {
         method: 'POST',
         headers: {
@@ -41,8 +46,7 @@ function MachineGridModal({ selectedMachine, loggedInUser, closeModal }) {
 
       // Handle response as needed
       if (response.ok) {
-        // Ticket created successfully
-        // You may close the form modal and show a success message
+        // Ticket created successfully close the form modal
         handleCloseTicketForm();
       } else {
         // Handle error response
@@ -52,8 +56,7 @@ function MachineGridModal({ selectedMachine, loggedInUser, closeModal }) {
       console.error('Error creating ticket:', error);
     }
   };
-
-
+  
   const handleCloseTicketForm = () => {
     setIsTicketFormVisible(false);
     setTicketFormData({

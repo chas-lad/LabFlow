@@ -1,3 +1,9 @@
+///////////////////////////////////////////////////////////
+// Title:       LabSchedule.js
+// Description: Code to display the schedule for lab
+//              classes
+///////////////////////////////////////////////////////////
+
 import React, { useState, useEffect } from 'react';
 import { View, Text, SectionList, TouchableOpacity, StyleSheet } from 'react-native';
 
@@ -43,7 +49,8 @@ const LabSchedule = () => {
         },
         {}
       );
-  
+      
+      // Transform sortedGroupedSchedule to an array of objects
       const transformedSchedule = Object.entries(sortedGroupedSchedule).map(
         ([title, data]) => ({
           title,
@@ -60,10 +67,12 @@ const LabSchedule = () => {
     }
   };
 
+  // Fetch the schedule from the database on component mount
   useEffect(() => {
     fetchScheduleFromDatabase();
   }, []);
 
+  // Section header renderer
   const renderSectionHeader = ({ section }) => (
     <TouchableOpacity onPress={() => toggleSection(section.title)}>
       <View style={styles.header}>
@@ -72,7 +81,7 @@ const LabSchedule = () => {
     </TouchableOpacity>
   );
   
-
+  // Item renderer
   const renderItem = ({ item }) => (
     <View style={styles.item}>
       <Text style={styles.itemText}>{item.module}</Text>
@@ -82,7 +91,8 @@ const LabSchedule = () => {
       <Text style={styles.itemText}>Lab: {item.labName}</Text>
     </View>
   );
-
+  
+  // Toggle section collapse
   const toggleSection = (day) => {
     setCollapsedDays((prevCollapsedDays) =>
       prevCollapsedDays.includes(day)
@@ -90,7 +100,7 @@ const LabSchedule = () => {
         : [...prevCollapsedDays, day]
     );
   };
-
+  
   return (
     <View style={styles.container}>
       {schedule && schedule.length > 0 ? (

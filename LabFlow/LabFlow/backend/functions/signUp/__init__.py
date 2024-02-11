@@ -1,3 +1,8 @@
+###########################################################
+## Title:       SignUP API
+## Methods:     POST
+###########################################################
+
 import os
 import azure.functions as func
 from  db import db_connector
@@ -41,6 +46,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             
             user = cursor.fetchone()
 
+            # If the username already exists, return an error
             if user is not None:
                 return func.HttpResponse("Username already exists", status_code=409)
 

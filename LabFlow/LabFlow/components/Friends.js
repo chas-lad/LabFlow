@@ -1,5 +1,11 @@
+///////////////////////////////////////////////////////////
+// Title:       Friends.js                         
+// Description: Code to manage the friends list and
+//              add/delete friends
+///////////////////////////////////////////////////////////
+
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { useAuth } from './AuthContext';
 
 const apiKey = process.env.EXPO_PUBLIC_API_KEY;
@@ -54,6 +60,7 @@ const Friends = () => {
     }
   };
 
+  // Fetch users and friends from database on component mount
   useEffect(() => {
     fetchUsersFromDatabase();
     fetchFriendsFromDatabase();
@@ -69,6 +76,7 @@ const Friends = () => {
     }
 
     setFriendName(text);
+    // Filter users whose names match the input
     const matchedUsers = users.filter((user) =>
       user.id !== loggedInUser.id &&
       (user.firstName.toLowerCase().includes(text.toLowerCase()) ||
@@ -228,7 +236,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   addButton: {
-    backgroundColor: '#4CAF50', // Green color
+    backgroundColor: '#4CAF50',
     borderRadius: 5,
     height: 40,
     justifyContent: 'center',
