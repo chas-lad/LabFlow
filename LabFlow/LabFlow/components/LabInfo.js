@@ -86,6 +86,8 @@ const LabInfo = () => {
         const selectedLab = labs.find((lab) => lab.id === selectedLabId);
         if (selectedLab) {
           const { latitude, longitude } = selectedLab;
+
+          // Set the map region to the selected lab's coordinates
           setMapRegion({
             latitude: latitude.toFixed(4),
             longitude: longitude.toFixed(4),
@@ -99,7 +101,7 @@ const LabInfo = () => {
             longitude: longitude.toFixed(4),
             latitudeDelta: 0.005,
             longitudeDelta: 0.005,
-          }, 1000); // You can adjust the duration of animation
+          }, 1000); // set duration in ms
         }
 
       } catch (error) {
