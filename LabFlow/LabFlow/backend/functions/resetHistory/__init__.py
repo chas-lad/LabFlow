@@ -1,5 +1,5 @@
 ###########################################################
-## Title:       Reset History Cron Job
+## Title:       ResetHistory Cron Job
 ## Description: This function is triggered every night at
 ##              23:50 to reset the totalHoursSpent<day>
 ##              field for all users to 0, where <day> is

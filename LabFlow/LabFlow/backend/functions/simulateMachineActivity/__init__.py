@@ -1,5 +1,5 @@
 ###########################################################
-## Title:       SimulateMachine Cron Job
+## Title:       SimulateMachineActivity Cron Job
 ## Description: This function is triggered at a set
 ##              interval to simulate machine activity by
 ##              assigning users to machines. It also
