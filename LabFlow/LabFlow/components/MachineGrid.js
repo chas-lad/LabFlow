@@ -101,28 +101,39 @@ function MachineGrid() {
   };
 
   const calculateContentSize = () => {
-
     // Calculate the content size based on the machine data
     let maxX = Number.MIN_SAFE_INTEGER;
     let maxY = Number.MIN_SAFE_INTEGER;
-
+  
     // Ensure machineData is not empty before processing
     if (machineData.length > 0) {
       machineData.forEach((item) => {
         maxX = Math.max(maxX, item.xPos);
         maxY = Math.max(maxY, item.yPos);
       });
-
-      // Add 1 to include the last position
-      maxX += 1;
-      maxY += 1;
+  
+      // Add spacing between machines
+      const spacing = 10; // Adjust this value to match the spacing used in renderItem
+      maxX += 1; // Add 1 to include the last position
+      maxY += 1; // Add 1 to include the last position
+  
+      // Calculate the total width including machines and spacing
+      const totalWidth = maxX * (containerSize * zoomLevel + spacing) + padding * 2;
+  
+      // Ensure the content width is at least equal to the width of the screen
+      const contentWidth = Math.max(totalWidth, Dimensions.get('window').width);
+  
+      const contentHeight = maxY * containerSize * zoomLevel + padding * 2;
+  
+      return { contentWidth, contentHeight };
     }
-
-    const contentWidth = maxX * containerSize * zoomLevel + padding * 2;
-    const contentHeight = maxY * containerSize * zoomLevel + padding * 2;
-
-    return { contentWidth, contentHeight };
+  
+    // If machineData is empty, return default content size
+    return { contentWidth: 0, contentHeight: 0 };
   };
+  
+  
+  
 
   const { contentWidth, contentHeight } = calculateContentSize();
 
@@ -144,12 +155,13 @@ function MachineGrid() {
   // Render the machine containers
   const renderItem = ({ item }) => {
     const adjustedSize = containerSize * zoomLevel;
-    const adjustedX = item.xPos * adjustedSize + padding;
-    const adjustedY = item.yPos * adjustedSize + padding;
-
+    const spacing = 10; // Spacing between containers
+    const adjustedX = item.xPos * (adjustedSize + spacing);
+    const adjustedY = item.yPos * (adjustedSize + spacing);
+  
     // Determine the background color based on the presence of userID
-    const backgroundColor = item.userID ? 'red' : 'green';
-
+    const backgroundColor = item.userID ? '#b5244d' : '#36a33d';
+  
     return (
       <TouchableOpacity onPress={() => handleMachinePress(item)}>
         <View
@@ -157,6 +169,7 @@ function MachineGrid() {
             padding: 10,
             margin: 5,
             borderWidth: 1,
+            borderRadius: 10,
             borderColor: 'black',
             position: 'absolute',
             left: adjustedX,
