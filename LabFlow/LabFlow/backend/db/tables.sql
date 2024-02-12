@@ -163,7 +163,7 @@ INSERT INTO labs
 VALUES
 (1, 'William Henry Bragg Building: 2nd floor, room 2.05', '2.05', 1, 53.80918723181025, -1.5538067297490388),
 (2, 'William Henry Bragg Building: 2nd floor, room 2.06', '2.06', 1, 53.80918723181025, -1.5538067297490388),
-(3, 'William Henry Bragg Building: 2nd floor, room 2.07', '2.07', 1, 53.80918723181025, -1.5538067297490388);
+(3, 'EC Stoner Building: 2nd floor, room 2.07', '2.07', 1, 53.80550975403996, -1.5520769739259042);
 
 
 CREATE TABLE machines (
@@ -377,7 +377,6 @@ VALUES
 (36,'Intel Core i7 10700kf CPU, 16GB RAM, RTX 3050 GPU, 500GB SSD', 8.0, 3.0, 3, NULL, NULL),
 (37,'Intel Core i7 10700kf CPU, 16GB RAM, RTX 3050 GPU, 500GB SSD', 9.0, 3.0, 3, NULL, NULL),
 (38,'Intel Core i7 10700kf CPU, 16GB RAM, RTX 3050 GPU, 500GB SSD', 10.0, 3.0, 3, NULL, NULL);
-
 
 
 CREATE TABLE friends (

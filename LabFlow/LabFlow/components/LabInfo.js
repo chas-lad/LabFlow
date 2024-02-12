@@ -4,7 +4,7 @@
 //              lab capacity, description and location
 ///////////////////////////////////////////////////////////
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import MapView, { Marker } from 'react-native-maps';
@@ -13,10 +13,11 @@ const apiKey = process.env.EXPO_PUBLIC_API_KEY;
 
 const LabInfo = () => {
   const [selectedLabId, setSelectedLabId] = useState(null);
-  const [latitude, setLatitude] = useState(null);
-  const [longitude, setLongitude] = useState(null);
   const [labs, setLabs] = useState([]);
   const [capacity, setCapacity] = useState(null);
+  const [mapRegion, setMapRegion] = useState(null); // State to manage the map region
+
+  const mapRef = useRef(null); // Reference to the MapView component
 
   // Fetch the labs from the database on component mount
   useEffect(() => {
@@ -40,11 +41,6 @@ const LabInfo = () => {
         if (fetchedLabs.length > 0) {
           setSelectedLabId(fetchedLabs[0].id); // Set the lab ID
         }
-
-        // Set the initial location of the map
-        setLatitude(fetchedLabs[0].latitude.toFixed(4));
-        setLongitude(fetchedLabs[0].longitude.toFixed(4));
-
       } catch (error) {
         console.error('Error fetching labs:', error);
       }
@@ -85,8 +81,27 @@ const LabInfo = () => {
         });
 
         setCapacity(Math.round((currentCapacity / maxCapacity) * 100));
-        setLatitude(labs.find((lab) => lab.id == selectedLabId).latitude.toFixed(4));
-        setLongitude(labs.find((lab) => lab.id == selectedLabId).longitude.toFixed(4));
+
+        // Get the selected lab's coordinates
+        const selectedLab = labs.find((lab) => lab.id === selectedLabId);
+        if (selectedLab) {
+          const { latitude, longitude } = selectedLab;
+          setMapRegion({
+            latitude: latitude.toFixed(4),
+            longitude: longitude.toFixed(4),
+            latitudeDelta: 0.005,
+            longitudeDelta: 0.005,
+          });
+
+          // Animate map to the marker's location
+          mapRef.current.animateToRegion({
+            latitude: latitude.toFixed(4),
+            longitude: longitude.toFixed(4),
+            latitudeDelta: 0.005,
+            longitudeDelta: 0.005,
+          }, 1000); // You can adjust the duration of animation
+        }
+
       } catch (error) {
         console.error('Error fetching machines:', error);
       }
@@ -121,9 +136,9 @@ const LabInfo = () => {
         ))}
       </Picker>
       {selectedLabId &&
-        labs.find((lab) => lab.id == selectedLabId)?.wheelchairAccess && (
+        labs.find((lab) => lab.id == selectedLabId)?.wheelchairAccess ? (
           <Text style={styles.accessText}>This lab is wheelchair accessible</Text>
-        )}
+        ) : <Text style={styles.accessText}>This lab is not wheelchair accessible</Text> }
       {selectedLabId && (
         <Text style={styles.locationText}>
           {labs.find((lab) => lab.id == selectedLabId)?.locationDescription}
@@ -134,18 +149,19 @@ const LabInfo = () => {
           {capacity}% Spaces Occupied
         </Text>
       )}
-      {latitude !== null && longitude !== null && (
+      {mapRegion && (
         <MapView
+          ref={mapRef}
           style={styles.map}
-          initialRegion={{
-            latitude,
-            longitude,
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.005,
-          }}
+          initialRegion={mapRegion}
+          showsUserLocation={true}
+          showsMyLocationButton={true}
         >
           <Marker
-            coordinate={{ latitude, longitude }}
+            coordinate={{
+              latitude: parseFloat(mapRegion.latitude),
+              longitude: parseFloat(mapRegion.longitude),
+            }}
             title={`Lab ${labs.find((lab) => lab.id == selectedLabId)?.labName}`}
           />
         </MapView>
