@@ -138,9 +138,10 @@ const LabInfo = () => {
         ))}
       </Picker>
       {selectedLabId &&
-        labs.find((lab) => lab.id == selectedLabId)?.wheelchairAccess ? (
+        (labs.find((lab) => lab.id == selectedLabId)?.wheelchairAccess ? (
           <Text style={styles.accessText}>This lab is wheelchair accessible</Text>
-        ) : <Text style={styles.accessText}>This lab is not wheelchair accessible</Text> }
+        ) : <Text style={[styles.accessText, { color: 'red' }]}>This lab is not wheelchair accessible</Text> )
+      }
       {selectedLabId && (
         <Text style={styles.locationText}>
           {labs.find((lab) => lab.id == selectedLabId)?.locationDescription}
