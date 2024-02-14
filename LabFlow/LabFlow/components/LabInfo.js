@@ -66,7 +66,7 @@ const LabInfo = () => {
         );
 
         const fetchedMachines = await response.json();
-
+        console.log('Fetched machines:', fetchedMachines);
         // Calculate the maximum capacity of the lab
         let maxCapacity = 0;
         fetchedMachines.forEach((machine) => {
@@ -79,6 +79,11 @@ const LabInfo = () => {
             currentCapacity += 1;
           }
         });
+        
+        // Handle case where capacity is 0
+        if (maxCapacity === 0) {
+          setCapacity(0);
+        }
 
         setCapacity(Math.round((currentCapacity / maxCapacity) * 100));
 

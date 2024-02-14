@@ -79,7 +79,9 @@ function MachineGridModal({ selectedMachine, loggedInUser, closeModal }) {
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
               <Text style={styles.modalTitle}>Machine Specification:</Text>
-              <Text style={styles.modalText}>{selectedMachine.specification || 'Specification not available'}</Text>
+              <Text style={styles.modalText}>{("CPU: " + selectedMachine.CPU) || 'Specification not available'}</Text>
+              <Text style={styles.modalText}>{("RAM: " + selectedMachine.RAM) || 'Specification not available'}</Text>
+              <Text style={styles.modalText}>{("GPU: " + selectedMachine.GPU) || 'Specification not available'}</Text>
               <Text style={styles.modalTitle}>Machine Issues:</Text>
               <Text style={styles.modalText}>{selectedMachine.commonIssues || 'No issues listed'}</Text>
               <TouchableOpacity onPress={() => setIsTicketFormVisible(true)}>
