@@ -1,4 +1,9 @@
-// Filter.js
+///////////////////////////////////////////////////////////
+// Title:       Filter.js
+// Description: Code to display the filter modal for
+//              machines and apply filters to the machine
+//              grid
+///////////////////////////////////////////////////////////
 import React from 'react';
 import { View, Text, Modal, Switch, StyleSheet, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
@@ -15,9 +20,11 @@ const Filter = ({
       <View style={styles.filterModalContainer}>
         <View style={styles.filterModalContent}>
           <Text style={styles.modalTitle}>Filter Machines</Text>
+        {/* Close button to close the modal */}
           <TouchableOpacity onPress={() => setFilterModalVisible(false)} style={styles.closeButton}>
             <Text style={{ color: 'blue' }}>Close</Text>
           </TouchableOpacity>
+        {/* Filter options for VRHeadset */}
           <View style={styles.filterOptionVR}>
             <View style={{ flex: 1 }}>
               <Text style={styles.pickerLabel}>VR Headset:</Text>
@@ -27,6 +34,7 @@ const Filter = ({
               onValueChange={(value) => setFilterSpecs(prev => ({ ...prev, VRHeadset: value }))}
             />
           </View>
+        {/* Filter options for CPU */}
           <View style={styles.filterOption}>
             <Text style={styles.pickerLabel}>CPU:</Text>
             <Picker
@@ -39,6 +47,7 @@ const Filter = ({
               ))}
             </Picker>
           </View>
+        {/* Filter options for RAM */}
           <View style={styles.filterOption}>
             <Text style={styles.pickerLabel}>RAM:</Text>
             <Picker
@@ -51,6 +60,7 @@ const Filter = ({
               ))}
             </Picker>
           </View>
+        {/* Filter options for GPU */}
           <View style={styles.filterOption}>
             <Text style={styles.pickerLabel}>GPU:</Text>
             <Picker
