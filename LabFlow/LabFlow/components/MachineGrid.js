@@ -7,10 +7,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, Dimensions, Modal, Switch } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 import { ScrollView, PinchGestureHandler } from 'react-native-gesture-handler';
 import { useAuth } from './AuthContext';
 
+import Filter from './Filter'; // Import the Filter component
 import MachineGridModal from './MachineGridModal'; // Import MachineGridModal component
 
 const apiKey = process.env.EXPO_PUBLIC_API_KEY;
@@ -111,28 +111,27 @@ function MachineGrid() {
     }));
   }, [machineData]);
 
-// Filter machines based on filter specifications only if filterEnabled is true
-useEffect(() => {
-  if (filterEnabled) {
-    const filteredMachines = machineData.map(machine => ({
-      ...machine,
-      clickable: (!filterSpecs.VRHeadset || machine.VRHeadset) &&
-        (filterSpecs.CPU === '' || machine.CPU === filterSpecs.CPU) &&
-        (filterSpecs.RAM === '' || machine.RAM === filterSpecs.RAM) &&
-        (filterSpecs.GPU === '' || machine.GPU === filterSpecs.GPU),
-    }));
+  // Filter machines based on filter specifications only if filterEnabled is true
+  useEffect(() => {
+    if (filterEnabled) {
+      const filteredMachines = machineData.map(machine => ({
+        ...machine,
+        clickable: (!filterSpecs.VRHeadset || machine.VRHeadset) &&
+          (filterSpecs.CPU === '' || machine.CPU === filterSpecs.CPU) &&
+          (filterSpecs.RAM === '' || machine.RAM === filterSpecs.RAM) &&
+          (filterSpecs.GPU === '' || machine.GPU === filterSpecs.GPU),
+      }));
 
-    setFilteredList(filteredMachines);
-  } else {
-    // If filter is not enabled, display all machines and make them clickable
-    const allMachinesClickable = machineData.map(machine => ({
-      ...machine,
-      clickable: true,
-    }));
-    setFilteredList(allMachinesClickable);
-  }
-}, [machineData, filterSpecs, filterEnabled]);
-
+      setFilteredList(filteredMachines);
+    } else {
+      // If filter is not enabled, display all machines and make them clickable
+      const allMachinesClickable = machineData.map(machine => ({
+        ...machine,
+        clickable: true,
+      }));
+      setFilteredList(allMachinesClickable);
+    }
+  }, [machineData, filterSpecs, filterEnabled]);
 
   // Function to toggle filter
   const toggleFilter = () => {
@@ -209,168 +208,46 @@ useEffect(() => {
     </TouchableOpacity>
   );
 
-const renderFilterModal = () => (
-  <Modal visible={filterModalVisible} transparent animationType="slide">
-    <View style={styles.filterModalContainer}>
-      <View style={styles.filterModalContent}>
-        <Text style={styles.modalTitle}>Filter Machines</Text>
-        <TouchableOpacity onPress={() => setFilterModalVisible(false)} style={styles.closeButton}>
-          <Text style={{ color: 'blue' }}>Close</Text>
-        </TouchableOpacity>
-        <View style={styles.filterOptionVR}>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.pickerLabel}>VR Headset:</Text>
-          </View>
-          <Switch
-            value={filterSpecs.VRHeadset}
-            onValueChange={(value) => setFilterSpecs(prev => ({ ...prev, VRHeadset: value }))}
-          />
-        </View>
-        <View style={styles.filterOption}>
-          <Text style={styles.pickerLabel}>CPU:</Text>
-          <Picker
-            selectedValue={filterSpecs.CPU}
-            style={styles.picker}
-            onValueChange={(itemValue) => setFilterSpecs(prev => ({ ...prev, CPU: itemValue }))}
-          >
-            {Array.from(new Set(machineData.map(machine => machine.CPU))).map((value, index) => (
-              <Picker.Item key={index} label={value} value={value} />
-            ))}
-          </Picker>
-        </View>
-        <View style={styles.filterOption}>
-          <Text style={styles.pickerLabel}>RAM:</Text>
-          <Picker
-            selectedValue={filterSpecs.RAM}
-            style={styles.picker}
-            onValueChange={(itemValue) => setFilterSpecs(prev => ({ ...prev, RAM: itemValue }))}
-          >
-            {Array.from(new Set(machineData.map(machine => machine.RAM))).map((value, index) => (
-              <Picker.Item key={index} label={value} value={value} />
-            ))}
-          </Picker>
-        </View>
-        <View style={styles.filterOption}>
-          <Text style={styles.pickerLabel}>GPU:</Text>
-          <Picker
-            selectedValue={filterSpecs.GPU}
-            style={styles.picker}
-            onValueChange={(itemValue) => setFilterSpecs(prev => ({ ...prev, GPU: itemValue }))}
-          >
-            {Array.from(new Set(machineData.map(machine => machine.GPU))).map((value, index) => (
-              <Picker.Item key={index} label={value} value={value} />
-            ))}
-          </Picker>
-        </View>
-      </View>
-    </View>
-  </Modal>
-);
+  // Render the machine containers
+  const renderItem = ({ item }) => {
+    const adjustedSize = containerSize * zoomLevel;
+    const spacing = 10; // Spacing between containers
+    const adjustedX = item.xPos * (adjustedSize + spacing);
+    const adjustedY = item.yPos * (adjustedSize + spacing);
 
-  
+    // Determine the background color based on the presence of userID
+    const backgroundColor = item.userID ? '#b5244d' : '#36a33d';
 
-// Render the machine containers
-const renderItem = ({ item }) => {
-  const adjustedSize = containerSize * zoomLevel;
-  const spacing = 10; // Spacing between containers
-  const adjustedX = item.xPos * (adjustedSize + spacing);
-  const adjustedY = item.yPos * (adjustedSize + spacing);
-
-  // Determine the background color based on the presence of userID
-  const backgroundColor = item.userID ? '#b5244d' : '#36a33d';
-
-  return (
-    <TouchableOpacity
-      onPress={() => handleMachinePress(item)}
-      disabled={!item.clickable}
-      activeOpacity={item.clickable ? 1 : 0.5}
-    >
-      <View
-        style={{
-          padding: 10,
-          margin: 5,
-          borderWidth: 1,
-          borderRadius: 10,
-          borderColor: 'black',
-          position: 'absolute',
-          left: adjustedX,
-          top: adjustedY,
-          width: adjustedSize,
-          height: adjustedSize,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: item.clickable ? backgroundColor : '#ccc', // Grey out non-clickable machines
-          opacity: item.clickable ? 1 : 0.5, // Reduce opacity for unclickable machines
-        }}
+    return (
+      <TouchableOpacity
+        onPress={() => handleMachinePress(item)}
+        disabled={!item.clickable}
+        activeOpacity={item.clickable ? 1 : 0.5}
       >
-        <Text>{`Machine ID: ${item.machineID}`}</Text>
-        <Text>{item.name}</Text>
-      </View>
-    </TouchableOpacity>
-  );
-};
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  flatList: {
-    height: Dimensions.get('window').height * 0.1, // This will take up 10% of the height
-    borderRadius: 10,
-  },
-  scrollView: {
-    height: Dimensions.get('window').height * 0.9, // This will take up 90% of the height
-    borderRadius: 10,
-  },
-  filterModalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  filterModalContent: {
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  closeButton: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-  },
-  filterOption: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 125,
-  },
-  filterOptionVR: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  pickerContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  pickerLabel: {
-    flex: 1,
-    marginRight: 10,
-    alignItems: 'center',
-  },
-  picker: {
-    flex: 2,
-    height: 50,
-    width: 150,
-  },
-});
-
+        <View
+          style={{
+            padding: 10,
+            margin: 5,
+            borderWidth: 1,
+            borderRadius: 10,
+            borderColor: 'black',
+            position: 'absolute',
+            left: adjustedX,
+            top: adjustedY,
+            width: adjustedSize,
+            height: adjustedSize,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: item.clickable ? backgroundColor : '#ccc', // Grey out non-clickable machines
+            opacity: item.clickable ? 1 : 0.5, // Reduce opacity for unclickable machines
+          }}
+        >
+          <Text>{`Machine ID: ${item.machineID}`}</Text>
+          <Text>{item.name}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -388,7 +265,14 @@ const styles = StyleSheet.create({
         <Text>Change Filters</Text>
       </TouchableOpacity>
 
-      {renderFilterModal()}
+      {/* Render the Filter component */}
+      <Filter
+        filterModalVisible={filterModalVisible}
+        setFilterModalVisible={setFilterModalVisible}
+        filterSpecs={filterSpecs}
+        setFilterSpecs={setFilterSpecs}
+        machineData={machineData}
+      />
 
       {/* Horizontal FlatList for tabs */}
       <FlatList
@@ -428,5 +312,19 @@ const styles = StyleSheet.create({
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  flatList: {
+    height: Dimensions.get('window').height * 0.1,
+    borderRadius: 10,
+  },
+  scrollView: {
+    height: Dimensions.get('window').height * 0.9,
+    borderRadius: 10,
+  },
+});
 
 export default MachineGrid;
