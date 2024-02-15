@@ -209,62 +209,65 @@ useEffect(() => {
     </TouchableOpacity>
   );
 
-  const renderFilterModal = () => (
-    <Modal visible={filterModalVisible} transparent animationType="slide">
-      <View style={styles.filterModalContainer}>
-        <View style={styles.filterModalContent}>
-          <Text style={styles.modalTitle}>Filter Machines</Text>
-          <TouchableOpacity onPress={() => setFilterModalVisible(false)} style={styles.closeButton}>
-            <Text style={{ color: 'blue' }}>Close</Text>
-          </TouchableOpacity>
-          <View style={styles.filterOption}>
+const renderFilterModal = () => (
+  <Modal visible={filterModalVisible} transparent animationType="slide">
+    <View style={styles.filterModalContainer}>
+      <View style={styles.filterModalContent}>
+        <Text style={styles.modalTitle}>Filter Machines</Text>
+        <TouchableOpacity onPress={() => setFilterModalVisible(false)} style={styles.closeButton}>
+          <Text style={{ color: 'blue' }}>Close</Text>
+        </TouchableOpacity>
+        <View style={styles.filterOptionVR}>
+          <View style={{ flex: 1 }}>
             <Text style={styles.pickerLabel}>VR Headset:</Text>
-            <Switch
-              value={filterSpecs.VRHeadset}
-              onValueChange={(value) => setFilterSpecs(prev => ({ ...prev, VRHeadset: value }))}
-            />
           </View>
-          <View style={styles.filterOption}>
-            <Text style={styles.pickerLabel}>CPU:</Text>
-            <Picker
-              selectedValue={filterSpecs.CPU}
-              style={styles.picker}
-              onValueChange={(itemValue) => setFilterSpecs(prev => ({ ...prev, CPU: itemValue }))}
-            >
-              {Array.from(new Set(machineData.map(machine => machine.CPU))).map((value, index) => (
-                <Picker.Item key={index} label={value} value={value} />
-              ))}
-            </Picker>
-          </View>
-          <View style={styles.filterOption}>
-            <Text style={styles.pickerLabel}>RAM:</Text>
-            <Picker
-              selectedValue={filterSpecs.RAM}
-              style={styles.picker}
-              onValueChange={(itemValue) => setFilterSpecs(prev => ({ ...prev, RAM: itemValue }))}
-            >
-              {Array.from(new Set(machineData.map(machine => machine.RAM))).map((value, index) => (
-                <Picker.Item key={index} label={value} value={value} />
-              ))}
-            </Picker>
-          </View>
-          <View style={styles.filterOption}>
-            <Text style={styles.pickerLabel}>GPU:</Text>
-            <Picker
-              selectedValue={filterSpecs.GPU}
-              style={styles.picker}
-              onValueChange={(itemValue) => setFilterSpecs(prev => ({ ...prev, GPU: itemValue }))}
-            >
-              {Array.from(new Set(machineData.map(machine => machine.GPU))).map((value, index) => (
-                <Picker.Item key={index} label={value} value={value} />
-              ))}
-            </Picker>
-          </View>
+          <Switch
+            value={filterSpecs.VRHeadset}
+            onValueChange={(value) => setFilterSpecs(prev => ({ ...prev, VRHeadset: value }))}
+          />
+        </View>
+        <View style={styles.filterOption}>
+          <Text style={styles.pickerLabel}>CPU:</Text>
+          <Picker
+            selectedValue={filterSpecs.CPU}
+            style={styles.picker}
+            onValueChange={(itemValue) => setFilterSpecs(prev => ({ ...prev, CPU: itemValue }))}
+          >
+            {Array.from(new Set(machineData.map(machine => machine.CPU))).map((value, index) => (
+              <Picker.Item key={index} label={value} value={value} />
+            ))}
+          </Picker>
+        </View>
+        <View style={styles.filterOption}>
+          <Text style={styles.pickerLabel}>RAM:</Text>
+          <Picker
+            selectedValue={filterSpecs.RAM}
+            style={styles.picker}
+            onValueChange={(itemValue) => setFilterSpecs(prev => ({ ...prev, RAM: itemValue }))}
+          >
+            {Array.from(new Set(machineData.map(machine => machine.RAM))).map((value, index) => (
+              <Picker.Item key={index} label={value} value={value} />
+            ))}
+          </Picker>
+        </View>
+        <View style={styles.filterOption}>
+          <Text style={styles.pickerLabel}>GPU:</Text>
+          <Picker
+            selectedValue={filterSpecs.GPU}
+            style={styles.picker}
+            onValueChange={(itemValue) => setFilterSpecs(prev => ({ ...prev, GPU: itemValue }))}
+          >
+            {Array.from(new Set(machineData.map(machine => machine.GPU))).map((value, index) => (
+              <Picker.Item key={index} label={value} value={value} />
+            ))}
+          </Picker>
         </View>
       </View>
-    </Modal>
-  );
+    </View>
+  </Modal>
+);
 
+  
 
 // Render the machine containers
 const renderItem = ({ item }) => {
@@ -345,7 +348,11 @@ const styles = StyleSheet.create({
   filterOption: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 90,
+    marginBottom: 125,
+  },
+  filterOptionVR: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   pickerContainer: {
     flex: 1,
@@ -355,6 +362,7 @@ const styles = StyleSheet.create({
   pickerLabel: {
     flex: 1,
     marginRight: 10,
+    alignItems: 'center',
   },
   picker: {
     flex: 2,
