@@ -243,8 +243,6 @@ function MachineGrid() {
             opacity: item.clickable ? 1 : 0.5, // Reduce opacity for unclickable machines
           }}
         >
-          <Text>{`Machine ID: ${item.machineID}`}</Text>
-          <Text>{item.name}</Text>
         </View>
       </TouchableOpacity>
     );

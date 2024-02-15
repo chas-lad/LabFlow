@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   },
   filterModalContent: {
     backgroundColor: 'white',
-    padding: 20,
+    padding: 6,
     borderRadius: 10,
     alignItems: 'center',
   },
@@ -117,14 +117,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   pickerLabel: {
+    fontSize: 20,
     flex: 1,
-    marginRight: 10,
     alignItems: 'center',
+    paddingLeft: 1,
   },
   picker: {
     flex: 2,
     height: 50,
-    width: 150,
+    width: 200,
   },
 });
 
