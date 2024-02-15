@@ -492,5 +492,3 @@ CREATE TABLE tickets (
     dateResolved DATETIME NULL,
     FOREIGN KEY (machineID, labID) REFERENCES machines(machineID, labID)
 );
-
-DROP TABLE tickets

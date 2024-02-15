@@ -10,8 +10,9 @@ import { View, Text, TouchableOpacity, FlatList, StyleSheet, Dimensions, Modal, 
 import { ScrollView, PinchGestureHandler } from 'react-native-gesture-handler';
 import { useAuth } from './AuthContext';
 
-import Filter from './Filter'; // Import the Filter component
-import MachineGridModal from './MachineGridModal'; // Import MachineGridModal component
+import Filter from './Filter'; 
+import MachineGridModal from './MachineGridModal'; 
+import Key from './Key';
 
 const apiKey = process.env.EXPO_PUBLIC_API_KEY;
 
@@ -258,7 +259,8 @@ function MachineGrid() {
           onValueChange={toggleFilter}
           style={{ marginRight: 10 }}
         />
-        <Text>Filter Machines</Text>
+        <Text style = {{ marginTop: 6 }}>Filter Machines</Text>
+        <Key />
       </View>
       {/* Filter Button */}
       <TouchableOpacity onPress={() => setFilterModalVisible(true)} style={{ padding: 10, backgroundColor: 'lightblue', marginBottom: 10 }}>
