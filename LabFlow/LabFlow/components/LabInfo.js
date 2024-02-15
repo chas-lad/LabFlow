@@ -66,7 +66,6 @@ const LabInfo = () => {
         );
 
         const fetchedMachines = await response.json();
-        console.log('Fetched machines:', fetchedMachines);
         // Calculate the maximum capacity of the lab
         let maxCapacity = 0;
         fetchedMachines.forEach((machine) => {

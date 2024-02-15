@@ -135,6 +135,9 @@ const MachineUsage = () => {
     // Format the time in hours to display in hours and minutes
     const formatTime = (hours) => {
         const totalMinutes = hours * 60;
+        if (totalMinutes === 0) {
+            return '0 Minutes';
+        }
         const formattedHours = Math.floor(totalMinutes / 60);
         const formattedMinutes = Math.ceil(totalMinutes % 60);
 
