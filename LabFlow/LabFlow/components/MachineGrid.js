@@ -261,7 +261,7 @@ function MachineGrid() {
         <Key />
       </View>
       {/* Filter Button */}
-      <TouchableOpacity onPress={() => setFilterModalVisible(true)} style={{ padding: 10, backgroundColor: 'lightblue', marginBottom: 10 }}>
+      <TouchableOpacity onPress={() => setFilterModalVisible(true)} style={{ padding: 10, backgroundColor: 'lightblue', marginBottom: 10, borderRadius: 10 }}>
         <Text>Change Filters</Text>
       </TouchableOpacity>
 

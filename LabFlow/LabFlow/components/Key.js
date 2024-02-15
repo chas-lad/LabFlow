@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     marginRight: 2,
     borderWidth: 1,
+    borderRadius: 4,
     borderColor: 'black',
   },
   keyText: {
