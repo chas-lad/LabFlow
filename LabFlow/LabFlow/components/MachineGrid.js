@@ -257,7 +257,7 @@ function MachineGrid() {
           onValueChange={toggleFilter}
           style={{ marginRight: 10 }}
         />
-        <Text style = {{ marginTop: 6 }}>Filter Machines</Text>
+        <Text style = {{ marginTop: 6 }}>Apply filters</Text>
         <Key />
       </View>
       {/* Filter Button */}
