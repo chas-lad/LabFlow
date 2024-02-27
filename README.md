@@ -1,8 +1,7 @@
 # LabFlow
 A visualisation tool for educational facilities to help students better manage their time and gain access to university resources.
 
-
-## How to run
+## How to run the application
 - Download the Expo Go app.
 - Go to folder titled LabFlow (ensure the folder contains the file `App.js`) and run the command `npx expo start` in a terminal.
 - A QR code will be generated in the terminal. Scan this using the Expo Go app or your phone camera app.
