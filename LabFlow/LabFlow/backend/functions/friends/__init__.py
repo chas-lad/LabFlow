@@ -31,6 +31,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             loggedInUserId = req_body.get('loggedInUserId')
             selectedUserId = req_body.get('selectedUserId')
 
+            # check if user ids are integers
+            if not isinstance(loggedInUserId, int) or not isinstance(selectedUserId, int):
+                return func.HttpResponse("User IDs must be integers", status_code=400)
+            
+            if loggedInUserId == selectedUserId:
+                return func.HttpResponse("User cannot be friends with themselves", status_code=400)
+
             # Check if the user is already friends with the selected user
             cursor.execute("""
                                 SELECT
@@ -73,7 +80,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             loggedInUserId = req.params.get('loggedInUserId')
 
             # Select all friends of the logged in user extracting their details and 
-            # also check if they are logged in, we also want to provide what lab they are in
+            # also check if their friends are logged in, we also want to provide what lab they are in
             # If they are not logged in then we want to provide a null value for the lab
 
             cursor.execute("""

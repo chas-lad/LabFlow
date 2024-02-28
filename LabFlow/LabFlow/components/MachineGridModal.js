@@ -13,13 +13,30 @@ function MachineGridModal({ selectedMachine, loggedInUser, closeModal }) {
   const [isTicketFormVisible, setIsTicketFormVisible] = useState(false);
   const [ticketFormData, setTicketFormData] = useState({
     machineID: selectedMachine ? selectedMachine.machineID : "",
+    labID: selectedMachine ? selectedMachine.labID : "",
     userID: loggedInUser.id, 
     issueDescription: "",
     issueStatus: 1, 
-    dateCreated: new Date().toISOString(),
+    dateCreated: getCurrentDateTime(),
     dateResolved: ""
   });
   const [errorMessage, setErrorMessage] = useState(null);
+
+  // function to get current date and time in appropriate format for backend
+  function getCurrentDateTime() {
+    var currentDate = new Date();
+
+    var year = currentDate.getFullYear();
+    var month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+    var day = ('0' + currentDate.getDate()).slice(-2);
+    var hours = ('0' + currentDate.getHours()).slice(-2);
+    var minutes = ('0' + currentDate.getMinutes()).slice(-2);
+    var seconds = ('0' + currentDate.getSeconds()).slice(-2);
+
+    var formattedDateTime = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+
+    return formattedDateTime;
+}
 
   const handleTicketFormSubmit = async () => {
     try {
@@ -61,10 +78,11 @@ function MachineGridModal({ selectedMachine, loggedInUser, closeModal }) {
     setIsTicketFormVisible(false);
     setTicketFormData({
       machineID: selectedMachine ? selectedMachine.machineID : "",
+      labID: selectedMachine ? selectedMachine.labID : "",
       userID: loggedInUser.id,
       issueDescription: "",
       issueStatus: 1,
-      dateCreated: new Date().toISOString(),
+      dateCreated: getCurrentDateTime(),
       dateResolved: ""
     });
     setErrorMessage(null);

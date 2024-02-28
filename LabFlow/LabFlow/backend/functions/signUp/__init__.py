@@ -1,6 +1,6 @@
 ###########################################################
 ## Title:       SignUP API
-## Methods:     POST
+## Methods:     POST, DELETE
 ###########################################################
 
 import os
@@ -33,6 +33,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             email = req_body.get('email')
             userName = req_body.get('userName')
             password = req_body.get('password')
+
+            if firstName is None or surname is None or email is None or userName is None or password is None:
+                return func.HttpResponse("First name, surname, email, username, and password are required", status_code=400)
 
             # Check if the username already exists in the database
             cursor.execute("""
@@ -104,8 +107,48 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         except Exception as e:
             logging.error(f"Error: {str(e)}")
             return func.HttpResponse("Failed to register user", status_code=500)
+    elif req.method == 'DELETE':
+        try:
+            connection = db_connector()
+            cursor = connection.cursor()
+
+            user_id = req.params.get('user_id')
+
+            if user_id is None:
+                return func.HttpResponse("User ID is required", status_code=400)
+
+            # check if the user exists
+            cursor.execute("""
+                            SELECT
+                                *
+                            FROM
+                                users
+                            WHERE
+                                id = ?
+                            """, user_id)
+            
+            user = cursor.fetchone()
+            if user is None:
+                return func.HttpResponse("User does not exist", status_code=404)
+            
+            cursor.execute("""
+                            DELETE FROM
+                                users
+                            WHERE
+                                id = ?
+                            """, user_id)
+            
+            connection.commit()
+
+            cursor.close()
+            connection.close()
+
+            return func.HttpResponse("User deleted successfully", status_code=200)
+        except Exception as e:
+            logging.error(f"Error: {str(e)}")
+            return func.HttpResponse("Failed to delete user", status_code=500)
     else:
         return func.HttpResponse(
-            'Invalid request method. Use POST.',
+            'Invalid request method. Use POST or DELETE.',
             status_code=400
         )

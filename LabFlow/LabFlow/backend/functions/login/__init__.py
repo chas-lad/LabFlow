@@ -31,6 +31,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             userName = req_body.get('userName')
             plain_password_from_client = req_body.get('password')
 
+            # check if the username and password are strings
+            if not isinstance(userName, str) or not isinstance(plain_password_from_client, str):
+                return func.HttpResponse("Invalid username or password", status_code=400)
+
             # Retrieve user info and hashed password from the database for the given username
             cursor.execute("""
                             SELECT

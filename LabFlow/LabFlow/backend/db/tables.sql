@@ -145,7 +145,8 @@ VALUES
 ('Avery', 'Murphy', 'averymurphy@gmail.com', 'averymurphy', '$2b$1', 0),
 ('Evelyn', 'Rivera', 'evelynrivera@gmail.com', 'evelynrivera', '$2b$1', 0),
 ('Jackson', 'Cooper', 'jacksoncooper@gmail.com', 'jacksoncooper', '$2b$1', 0),
-('Lily', 'Richardson', 'lilyrichardson@gmail.com', 'lilyrichardson', '$2b$1', 0);
+('Lily', 'Richardson', 'lilyrichardson@gmail.com', 'lilyrichardson', '$2b$1', 0),
+('Test', 'User', 'test.user@gmail.com', 'TestUser', 'Password1010!!', 0);
 
 CREATE TABLE labs (
     id                  INT,

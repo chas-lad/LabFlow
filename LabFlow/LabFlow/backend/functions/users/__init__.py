@@ -52,5 +52,5 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     else:
         return func.HttpResponse(
             'Invalid request method. Use GET.',
-            status_code=400
+            status_code=401
         )

@@ -26,6 +26,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             cursor = connection.cursor()
 
             labID = req.params.get('labID')
+            if not labID:
+                return func.HttpResponse("labID is required", status_code=400)
 
             cursor.execute("""
                            SELECT
@@ -37,6 +39,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                            """, labID)
                            
             machines = cursor.fetchall()
+
+            if not machines:
+                return func.HttpResponse("No machines found or lab doesn't exist", status_code=500)
 
              # Convert the result to a list of dictionaries
             machines_list = [dict(zip([column[0] for column in cursor.description], row)) for row in machines]
@@ -52,5 +57,5 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     else:
         return func.HttpResponse(
             'Invalid request method. Use GET.',
-            status_code=400
+            status_code=404
         )
