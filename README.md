@@ -18,28 +18,25 @@ A visualisation tool for educational facilities to help students better manage t
 - You will have to run this command twice. On first run the tests are likely to fail due to the cold start caused by using serverless functions on a low tier plan.
 
 # Login
-![Login page](./LabFlow/LabFlow/assets/screenshots/login.PNG)
+<img src="./LabFlow/LabFlow/assets/screenshots/login.PNG" width=25% height=25%>
 
 # SignUp
-![SignUp page](./LabFlow/LabFlow/assets/screenshots/signup.PNG)
+<img src="./LabFlow/LabFlow/assets/screenshots/signup.PNG" width=25% height=25%>
 
 # Lab Info Page
-![Lab info page](./LabFlow/LabFlow/assets/screenshots/labInfo.PNG)
+<img src="./LabFlow/LabFlow/assets/screenshots/labInfo.PNG" width=25% height=25%>
 
 # Machine Grid View
-![Machine Grid View](./LabFlow/LabFlow/assets/screenshots/machineGrid.PNG)
-
-![Filters](./LabFlow/LabFlow/assets/screenshots/filters.PNG)
-
-![Filtered Machines](./LabFlow/LabFlow/assets/screenshots/filteredMachines.PNG)
+<img src="./LabFlow/LabFlow/assets/screenshots/machineGrid.PNG" width=25% height=25%>
+<img src="./LabFlow/LabFlow/assets/screenshots/filters.PNG" width=25% height=25%>
+<img src="./LabFlow/LabFlow/assets/screenshots/filteredMachines.PNG" width=25% height=25%>
 
 # Friends
-![Add friend](./LabFlow/LabFlow/assets/screenshots/addFriend.PNG)
-
-![Friends](./LabFlow/LabFlow/assets/screenshots/friends.PNG)
+<img src="./LabFlow/LabFlow/assets/screenshots/addFriend.PNG" width=25% height=25%>
+<img src="./LabFlow/LabFlow/assets/screenshots/friends.PNG" width=25% height=25%>
 
 # Lab Schedule
-![Lab Schedule](./LabFlow/LabFlow/assets/screenshots/labSchedule.PNG)
+<img src="./LabFlow/LabFlow/assets/screenshots/labSchedule.PNG" width=25% height=25%>
 
 # Lab Usage
-![Machine Usage](./LabFlow/LabFlow/assets/screenshots/machineUsage.PNG)
+<img src="./LabFlow/LabFlow/assets/screenshots/machineUsage.PNG" width=25% height=25%>
