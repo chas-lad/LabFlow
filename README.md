@@ -16,3 +16,30 @@ A visualisation tool for educational facilities to help students better manage t
     - `pip install datetime`
 - Once you have the correct libraries installed. Run the command `pytest`, this will search the `tests` folder for all test files to execute.
 - You will have to run this command twice. On first run the tests are likely to fail due to the cold start caused by using serverless functions on a low tier plan.
+
+# Login
+![Login page](./LabFlow/LabFlow/assets/screenshots/login.PNG)
+
+# SignUp
+![SignUp page](./LabFlow/LabFlow/assets/screenshots/signup.PNG)
+
+# Lab Info Page
+![Lab info page](./LabFlow/LabFlow/assets/screenshots/labInfo.PNG)
+
+# Machine Grid View
+![Machine Grid View](./LabFlow/LabFlow/assets/screenshots/machineGrid.PNG)
+
+![Filters](./LabFlow/LabFlow/assets/screenshots/filters.PNG)
+
+![Filtered Machines](./LabFlow/LabFlow/assets/screenshots/filteredMachines.PNG)
+
+# Friends
+![Add friend](./LabFlow/LabFlow/assets/screenshots/addFriend.PNG)
+
+![Friends](./LabFlow/LabFlow/assets/screenshots/friends.PNG)
+
+# Lab Schedule
+![Lab Schedule](./LabFlow/LabFlow/assets/screenshots/labSchedule.PNG)
+
+# Lab Usage
+![Machine Usage](./LabFlow/LabFlow/assets/screenshots/machineUsage.PNG)
