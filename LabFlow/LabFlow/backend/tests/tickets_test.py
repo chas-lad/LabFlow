@@ -4,7 +4,7 @@ from datetime import datetime
 from datetime import timedelta
 
 API_URL = "https://labflowbackend.azurewebsites.net/api/tickets"
-API_KEY = "815ebfed-2b15-4fc4-bd78-9e408ab1d13a"
+API_KEY = "INSERT_API_KEY_HERE"
 
 def test_valid_ticket_creation():
     headers = {
