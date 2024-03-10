@@ -3,7 +3,7 @@ import requests
 
 API_URL = "https://labflowbackend.azurewebsites.net/api/machines"
 
-API_KEY = "815ebfed-2b15-4fc4-bd78-9e408ab1d13a"
+API_KEY = "INSERT_API_KEY_HERE"
 
 def test_get_machines_for_lab3():
     labID = 3
