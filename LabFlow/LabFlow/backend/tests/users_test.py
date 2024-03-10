@@ -2,7 +2,7 @@ import pytest
 import requests
 
 API_URL = "https://labflowbackend.azurewebsites.net/api/users"
-API_KEY = "815ebfed-2b15-4fc4-bd78-9e408ab1d13a"
+API_KEY = "INSERT_API_KEY_HERE"
 
 def test_valid_users_retrieval():
     headers = {
